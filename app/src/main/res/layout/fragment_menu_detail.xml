@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/itemImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.menuDetail.MenuDetailDialog">
+
+        <ImageView
+            android:id="@+id/detailImage"
+            android:layout_width="344dp"
+            android:layout_height="247dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.49"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/maksim_larin_nopsc3nwtzy_unsplash" />
+
+        <TextView
+            android:id="@+id/detailName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:text="商品名"
+            android:textSize="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/detailImage" />
+
+        <TextView
+            android:id="@+id/detailText"
+            android:layout_width="340dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="8dp"
+            android:text="身丈や身幅をたっぷりとったボリューミーなビッグシルエットタイプ。\n 中に重ね着する事でアウターとしても活躍します。\n サイズに悩まないワンサイズのみの展開です"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.45"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/detailName" />
+
+        <TextView
+            android:id="@+id/priceLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:text="Price:"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/detailText" />
+
+        <TextView
+            android:id="@+id/sexNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:text="Men's"
+            app:layout_constraintStart_toEndOf="@+id/sexLabel"
+            app:layout_constraintTop_toBottomOf="@+id/priceNum" />
+
+        <TextView
+            android:id="@+id/priceNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="32dp"
+            android:text="¥13,000"
+            app:layout_constraintStart_toEndOf="@+id/priceLabel"
+            app:layout_constraintTop_toBottomOf="@+id/detailText" />
+
+        <TextView
+            android:id="@+id/sexLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="8dp"
+            android:text="Sex:"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/priceLabel" />
+
+        <Button
+            android:id="@+id/gotoCartBtn"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/shape_button_rounded"
+            android:foreground="?attr/selectableItemBackground"
+            android:text="カートに追加"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sexNum" />
+
+        <Button
+            android:id="@+id/gotoPurchase"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/white_border_shape_button_rounded"
+            android:foreground="?attr/selectableItemBackground"
+            android:text="購入する"
+            android:textColor="@color/colorAccent"
+            app:backgroundTint="@null"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/gotoCartBtn"
+            app:layout_constraintTop_toBottomOf="@+id/sexNum" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
