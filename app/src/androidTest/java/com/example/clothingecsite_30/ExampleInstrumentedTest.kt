@@ -1,4 +1,4 @@
-package com.example.clotingecsite_30
+package com.example.clothingecsite_30
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

@@ -1,3 +1,73 @@
 <resources>
-    <string name="app_name">ClotingEcSite_3.0</string>
+    <string name="app_name">ClothingEcSite</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_logout">ログアウト</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="login_fragment_label">Login Fragment</string>
+    <string name="register_fragment_label">Register Fragment</string>
+    <string name="previous">Previous</string>
+    <!--  共通  -->
+    <!--ボタンタイトル -->
+    <string name="btn_login_title">LOGIN</string>
+    <string name="btn_register_title">REGISTER</string>
+    <string name="btn_not_login_title">ログインせずに使う</string>
+    <!-- トップ画面 -->
+    <string name="app_title">ClothingEcSite</string>
+    <string name="app_title_detail">「自分のファッションの追求」他に左右されずに\n「自分が今着たい服」「自分に似合う服」「自分が好きな服」\nを着ている人はおしゃれ。\nそんな方達に求められる古着屋を目指します。</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">LOGIN</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome!"</string>
+
+    <string name="invalid_username">1〜２０字以内で入力して下さい。</string>
+    <string name="invalid_not_input">入力して下さい。</string>
+    <string name="invalid_address">正しい郵便番号を入力して下さい。</string>
+    <string name="invalid_email_zenkaku">入力が正しくありません。</string>
+    <string name="invalid_can_not_register">入力に誤りがあるため、登録できませんでした。</string>
+
+    <string name="invalid_not_select_gender">性別を選択して下さい。</string>
+
+    <string name="invalid_input_password">入力が正しくありません。少なくとも一文字以上は、英語の大文字と記号を含めて下さい。</string>
+    <string name="invalid_email_input">大文字の英語をパスワードに含めて下さい。</string>
+    <string name="invalid_not_match_pass">入力されたパスワードが一致しません。</string>
+    <string name="invalid_not_check_consent">会員規約に同意して下さい。</string>
+
+    <string name="invalid_birthday_birthMonth">正しい日付を入力して下さい。</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">ログインに失敗しました。\nメールアドレスかパスワードが間違っている可能性があります。</string>
+    <string name="login_validate_error">ログインに失敗しました。入力内容に誤りがあります。</string>
+    <string name="server_error">"回線が乱れているためログインできませんでした。\nもう一度ログインボタンを押下して下さい。"</string>
+    <string name="deplicate_mail">入力したメールアドレスはすでに登録済みです。</string>
+    <string name="large_text">
+        "Material is the metaphor.\n\n"
+
+        "A material metaphor is the unifying theory of a rationalized space and a system of motion."
+        "The material is grounded in tactile reality, inspired by the study of paper and ink, yet "
+        "technologically advanced and open to imagination and magic.\n"
+        "Surfaces and edges of the material provide visual cues that are grounded in reality. The "
+        "use of familiar tactile attributes helps users quickly understand affordances. Yet the "
+        "flexibility of the material creates new affordances that supercede those in the physical "
+        "world, without breaking the rules of physics.\n"
+        "The fundamentals of light, surface, and movement are key to conveying how objects move, "
+        "interact, and exist in space and in relation to each other. Realistic lighting shows "
+        "seams, divides space, and indicates moving parts.\n\n"
+    </string>
+
+    <style name="roundedCornersImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">24%</item>
+    </style>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="purchase_register_individual">購入登録</string>
+    <string name="login_btn">Login</string>
+    <string name="register_btn">Register</string>
+    <string name="next_cash_btn">支払い情報入力へ</string>
+    <string name="nav_my_profile">My Profile</string>
+    <string name="nav_sign_out">Sign Out</string>
 </resources>
