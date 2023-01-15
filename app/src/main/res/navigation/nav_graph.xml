@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/MenuListFragment">
+    <fragment
+        android:id="@+id/MenuListFragment"
+        android:name="com.example.clothingecsite_30.view.MenuListScrollingFragment"
+        android:label="@string/login_fragment_label"
+        tools:layout="@layout/fragment_menu_list_scrolling">
+        <action
+            android:id="@+id/action_TopFragment_to_MenuListFragment"
+            app:enterAnim="@anim/slide_from_right"
+            app:exitAnim="@anim/slide_to_left"
+            app:destination="@id/FirstFragment" />
+        <action
+            android:id="@+id/action_MenuDetailFragment_to_MenuListFragment"
+            app:destination="@id/MenuDetailFragment"
+            app:enterAnim="@anim/slide_from_right"
+            app:exitAnim="@anim/slide_to_left" />
+    </fragment>
+    <fragment
+        android:id="@+id/MenuDetailFragment"
+        android:name="com.example.clothingecsite_30.view.MenuDetailFragment"
+        android:label="@string/login_fragment_label"
+        tools:layout="@layout/fragment_menu_detail">
+        <action
+            android:id="@+id/action_TopFragment_to_MenuListFragment"
+            app:destination="@id/FirstFragment"
+            app:enterAnim="@anim/slide_from_right"
+            app:exitAnim="@anim/slide_to_left" />
+        <action
+            android:id="@+id/action_PurchaseRegisterIndividualFragment_to_MenuListFragment"
+            app:destination="@id/PurchaseRegisterIndividualFragment"
+            app:enterAnim="@anim/slide_from_right"
+            app:exitAnim="@anim/slide_to_left" />
+    </fragment>
+    <fragment
+        android:id="@+id/PurchaseRegisterIndividualFragment"
+        android:name="com.example.clothingecsite_30.view.PurchaseRegisterIndividualFragment"
+        android:label="@string/login_fragment_label"
+        tools:layout="@layout/fragment_purchase_register_individual">
+<!--        <action-->
+<!--            android:id="@+id/action_PurchaseRegisterIndividualFragment_to_MenuListFragment"-->
+<!--            app:destination="@id/"-->
+<!--            app:enterAnim="@anim/slide_from_right"-->
+<!--            app:exitAnim="@anim/slide_to_left" />-->
+    </fragment>
+
+</navigation>
