@@ -8,6 +8,12 @@
     <string name="login_fragment_label">Login Fragment</string>
     <string name="register_fragment_label">Register Fragment</string>
     <string name="previous">Previous</string>
+    <string name="name">Name</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="mobile">Mobile</string>
+    <string name="update">UPDATE</string>
+    <string name="my_profile">My Profile</string>
     <!--  共通  -->
     <!--ボタンタイトル -->
     <string name="btn_login_title">LOGIN</string>

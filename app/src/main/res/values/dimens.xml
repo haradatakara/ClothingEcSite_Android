@@ -7,6 +7,8 @@
     <dimen name="list_item_spacing">16dp</dimen>
     <dimen name="list_item_spacing_half">8dp</dimen>
     <dimen name="register_text_size">22sp</dimen>
+    <dimen name="card_view_elevation">10dp</dimen>
+    <dimen name="card_view_corner_radius">10dp</dimen>
 
     <dimen name="height_of_nav_main">200dp</dimen>
     <dimen name="nav_image_size">80dp</dimen>
@@ -18,5 +20,21 @@
     <dimen name="nav_divider_height">0.5dp</dimen>
     <string name="image_contentDescription">image</string>
 
+    <dimen name="my_profile_screen_content_marginStartEnd">16dp</dimen>
+    <dimen name="my_profile_screen_content_marginTopBottom">10dp</dimen>
+    <dimen name="my_profile_screen_content_padding">16dp</dimen>
+    <dimen name="my_profile_user_image_size">100dp</dimen>
+    <dimen name="my_profile_name_til_marginTop">25dp</dimen>
+    <dimen name="my_profile_et_email_marginTop">20dp</dimen>
+    <dimen name="my_profile_et_mobile_marginTop">20dp</dimen>
+    <dimen name="my_profile_btn_update_marginTop">30dp</dimen>
+
+    <dimen name="card_details_content_padding">16dp</dimen>
+    <dimen name="card_details_cv_content_padding">16dp</dimen>
+    <dimen name="card_details_label_text_size">14sp</dimen>
+    <dimen name="card_details_value_marginTop">5dp</dimen>
+    <dimen name="card_details_value_padding">10dp</dimen>
+    <dimen name="card_details_members_label_marginTop">15dp</dimen>
+    <dimen name="card_details_update_btn_marginTop">30dp</dimen>
 
 </resources>

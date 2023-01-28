@@ -10,17 +10,15 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import com.example.clothingecsite_30.model.authentication.Result
+import com.google.firebase.storage.ktx.storage
 
-
-/**
- * Class that requests authentication and user information from the remote data source and
- * maintains an in-memory cache of login status and user credentials information.
- */
 
 class LoginRepository() {
 
     private val fireAuth = Firebase.auth
     private val fireStore = Firebase.firestore
+    private val fireStorage = Firebase.storage
+    private val storageRef = fireStorage.reference.child("images/user-images/")
 
 
     // in-memory cache of the loggedInUser object
@@ -46,13 +44,15 @@ class LoginRepository() {
     suspend fun fetchLoginUser(): User? {
         val uid = fireAuth.uid
 
-        return fireStore
+        val user = fireStore
             .collection("user")
             .document(uid!!)
             .get()
             .await()
             .toObject(User::class.java)
-
+        val url = storageRef.child(user!!.image).downloadUrl.await()
+        user.image = url.toString()
+        return user
     }
 
     suspend fun login(username: String, password: String): Result<LoggedInUser>? {
@@ -63,7 +63,7 @@ class LoginRepository() {
             if (user != null) {
                 val uid: String = user.uid
                 setLoggedInUser(LoggedInUser(uid, username, password))
-                authenticatedUser = com.example.clothingecsite_30.model.authentication.Result.Success(LoggedInUser(uid, username, password))
+                authenticatedUser = Result.Success(LoggedInUser(uid, username, password))
             }
         } catch (e: java.lang.Exception) {
             authenticatedUser = Result.Error(e)

@@ -2,6 +2,7 @@ package com.example.clothingecsite_30.view
 
 import android.app.DatePickerDialog
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
@@ -9,6 +10,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
@@ -29,9 +32,17 @@ class RegisterFragment : Fragment(), CustomTextWatcherListener {
     private lateinit var registerViewModel: RegisterViewModel
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
+
+    private var profileImageUri: Uri? = null
+
+    private val resultLauncher =
+        registerForActivityResult(ActivityResultContracts.PickVisualMedia()) {
+            openImage(it)
+            binding.ivProfileUserImage.setImageURI(it)
+        }
+
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentRegisterBinding.inflate(inflater, container, false)
         return binding.root
@@ -100,8 +111,7 @@ class RegisterFragment : Fragment(), CustomTextWatcherListener {
                 }
             }
         }
-        registerViewModel.registerFormState.observe(
-            viewLifecycleOwner,
+        registerViewModel.registerFormState.observe(viewLifecycleOwner,
             Observer { registerFormState ->
                 if (registerFormState == null) {
                     return@Observer
@@ -159,11 +169,16 @@ class RegisterFragment : Fragment(), CustomTextWatcherListener {
             }
         })
 
+        binding.ivProfileUserImage.setOnClickListener {
+            resultLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        }
+
         // ログインボタン押下時の処理
         registerBtn.setOnClickListener {
             loadingProgressBar.visibility = View.VISIBLE
             scrollView.post { scrollView.fullScroll(ScrollView.FOCUS_UP) }
             registerViewModel.register(
+                profileImageUri,
                 userNameEditText.text.toString(),
                 emailEditText.text.toString(),
                 addressEditText.text.toString(),
@@ -176,6 +191,7 @@ class RegisterFragment : Fragment(), CustomTextWatcherListener {
                 selectGender
             )
         }
+
 
         super.onViewCreated(view, savedInstanceState)
     }
@@ -205,64 +221,56 @@ class RegisterFragment : Fragment(), CustomTextWatcherListener {
         userNameEditText.apply {
             addTextChangedListener(
                 CustomTextWatcher(
-                    this,
-                    this@RegisterFragment
+                    this, this@RegisterFragment
                 )
             )
         }
         emailEditText.apply {
             addTextChangedListener(
                 CustomTextWatcher(
-                    this,
-                    this@RegisterFragment
+                    this, this@RegisterFragment
                 )
             )
         }
         addressEditText.apply {
             addTextChangedListener(
                 CustomTextWatcher(
-                    this,
-                    this@RegisterFragment
+                    this, this@RegisterFragment
                 )
             )
         }
         birthDayEditText.apply {
             addTextChangedListener(
                 CustomTextWatcher(
-                    this,
-                    this@RegisterFragment
+                    this, this@RegisterFragment
                 )
             )
         }
         birthMonthEditText.apply {
             addTextChangedListener(
                 CustomTextWatcher(
-                    this,
-                    this@RegisterFragment
+                    this, this@RegisterFragment
                 )
             )
         }
         birthYearEditText.apply {
             addTextChangedListener(
                 CustomTextWatcher(
-                    this,
-                    this@RegisterFragment
+                    this, this@RegisterFragment
                 )
             )
         }
         passwordEditText.apply {
             addTextChangedListener(
                 CustomTextWatcher(
-                    this,
-                    this@RegisterFragment
+                    this, this@RegisterFragment
                 )
             )
         }
         oneMorePasswordEditText.apply {
             addTextChangedListener(
                 CustomTextWatcher(
-                    this,
-                    this@RegisterFragment
+                    this, this@RegisterFragment
                 )
             )
         }
@@ -310,16 +318,19 @@ class RegisterFragment : Fragment(), CustomTextWatcherListener {
         val year = c.get(Calendar.YEAR)
         val month = c.get(Calendar.MONTH)
         val day = c.get(Calendar.DAY_OF_MONTH)
-        val calendar =
-            DatePickerDialog(
-                requireContext(),
-                R.style.DatePickerDialog_Spinner,
-                DialogDateButtonClickLister(),
-                year,
-                month,
-                day
-            )
+        val calendar = DatePickerDialog(
+            requireContext(),
+            R.style.DatePickerDialog_Spinner,
+            DialogDateButtonClickLister(),
+            year,
+            month,
+            day
+        )
         calendar.show()
+    }
+
+    private fun openImage(uri: Uri?) {
+        profileImageUri = uri
     }
 
     private inner class DialogDateButtonClickLister : DatePickerDialog.OnDateSetListener {
