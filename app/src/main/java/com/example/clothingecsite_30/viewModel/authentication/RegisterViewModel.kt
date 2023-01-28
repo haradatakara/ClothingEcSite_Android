@@ -1,6 +1,7 @@
 package com.example.clothingecsite_30.viewModel.authentication
 
 
+import android.net.Uri
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
@@ -9,6 +10,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.clothingecsite_30.R
 import com.example.clothingecsite_30.data.authentication.AuthenticationResult
+import com.example.clothingecsite_30.data.authentication.LoggedInUserView
 import com.example.clothingecsite_30.data.authentication.RegisterFormState
 import com.example.clothingecsite_30.model.authentication.Result
 import com.example.clothingecsite_30.repository.RegisterRepository
@@ -27,6 +29,7 @@ class RegisterViewModel
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun register(
+        profileImageUri: Uri?,
         username: String,
         email: String,
         address: String,
@@ -65,6 +68,7 @@ class RegisterViewModel
         if (isValid) {
             //登録処理
             val userInfo = hashMapOf(
+                "image" to profileImageUri.toString(),
                 "username" to username,
                 "email" to email,
                 "password" to pass,
@@ -73,13 +77,15 @@ class RegisterViewModel
                 "gender" to selectGender!!
             )
             viewModelScope.launch {
-                val result = registerRepository.register(userInfo)
-                if (result is Result) {
-//                    _registerResult.value =
-//                        AuthenticationResult(success = LoggedInUserView(displayName = result.username))
-                } else {
-                    _registerResult.value = AuthenticationResult(error = R.string.deplicate_mail)
-                    RegisterFormState(cannotRegisterError = R.string.invalid_can_not_register)
+                when (val result = registerRepository.register(userInfo)) {
+                    is Result.Success -> {
+                        _registerResult.value =
+                            AuthenticationResult(success = LoggedInUserView(displayName = result.data.username))
+                    }
+                    else -> {
+                        _registerResult.value = AuthenticationResult(error = R.string.deplicate_mail)
+                        RegisterFormState(cannotRegisterError = R.string.invalid_can_not_register)
+                    }
                 }
             }
         } else {

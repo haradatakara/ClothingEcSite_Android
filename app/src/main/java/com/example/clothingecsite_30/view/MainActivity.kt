@@ -10,6 +10,7 @@ import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.example.clothingecsite_30.R
 import com.example.clothingecsite_30.databinding.ActivityMainBinding
 import com.example.clothingecsite_30.view.dialog.CartListDialogFragment
@@ -17,9 +18,10 @@ import com.example.clothingecsite_30.viewModel.authentication.LoginViewModel
 import com.example.clothingecsite_30.viewModel.authentication.LoginViewModelFactory
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
+import de.hdodenhof.circleimageview.CircleImageView
 
 
-class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var loginViewModel: LoginViewModel
@@ -30,6 +32,19 @@ class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelect
 
         loginViewModel =
             ViewModelProvider(this, LoginViewModelFactory())[LoginViewModel::class.java]
+
+        //すでにログイン済みだが、ユーザー情報を取得していない場合
+        //ユーザー情報を取得する
+        if (loginViewModel.loginUser.value == null) {
+            loginViewModel.fetchLoginUser()
+        }
+
+        loginViewModel.loginUser.observe(this) {
+
+            Glide.with(this)
+                .load(it.image)
+                .into(findViewById<CircleImageView>(R.id.iv_user_image))
+        }
 
         binding = ActivityMainBinding.inflate(layoutInflater).apply { setContentView(this.root) }
 
@@ -72,8 +87,11 @@ class MainActivity : AppCompatActivity() , NavigationView.OnNavigationItemSelect
 
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
         when (menuItem.itemId) {
-            R.id.nav_my_profile -> {
-            }
+//            R.id.nav_my_profile -> {
+//                val intent = Intent(this, MyProfileActivity::class.java)
+//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+//                startActivity(intent)
+//            }
             R.id.nav_sign_out -> {
                 loginViewModel.logout()
                 val intent = Intent(this, IntroActivity::class.java)

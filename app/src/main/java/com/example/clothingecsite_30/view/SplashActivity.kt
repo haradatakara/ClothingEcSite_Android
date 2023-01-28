@@ -24,10 +24,6 @@ class SplashActivity : AppCompatActivity() {
             WindowManager.LayoutParams.FLAG_FULLSCREEN
         )
 
-//        val typeface: Typeface =
-//            Typeface.createFromAsset(assets, "carbon bl.ttf")
-//        binding.tvAppName.typeface = typeface
-
         Handler().postDelayed({
             val currentUserID = fireAuth.uid
             if (currentUserID != null) {

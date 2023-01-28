@@ -1,70 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<androidx.core.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/scrollRegister"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    android:orientation="vertical"
+    tools:context=".view.MyProfileActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/toolbar_my_profile_activity_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/ic_background"
-        android:paddingLeft="@dimen/fragment_horizontal_margin"
-        android:paddingTop="@dimen/fragment_vertical_margin"
-        android:paddingRight="@dimen/fragment_horizontal_margin"
-        android:paddingBottom="@dimen/fragment_vertical_margin">
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_register_activity"
+            android:id="@+id/toolbar_my_profile_activity"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+    </com.google.android.material.appbar.AppBarLayout>
 
-            <TextView
-                android:id="@+id/tv_title"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:text="@string/register_btn"
-                android:textSize="24dp"
-                android:textStyle="bold" />
-        </androidx.appcompat.widget.Toolbar>
-
-        <TextView
-            android:id="@+id/errorCannotRegister"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
-            android:textColor="@android:color/holo_red_light"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar_register_activity" />
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="72dp"
+        android:background="@drawable/ic_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_my_profile_activity_container">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/card_view_login"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="35dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar_register_activity">
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/my_profile_screen_content_marginStartEnd"
+            android:layout_marginTop="@dimen/my_profile_screen_content_marginTopBottom"
+            android:layout_marginEnd="@dimen/my_profile_screen_content_marginStartEnd"
+            android:layout_marginBottom="@dimen/my_profile_screen_content_marginTopBottom"
+            android:elevation="@dimen/card_view_elevation"
+            app:cardCornerRadius="@dimen/card_view_corner_radius">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 android:orientation="vertical"
-
-                android:padding="24sp">
+                android:padding="@dimen/my_profile_screen_content_padding">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/iv_profile_user_image"
-                    android:layout_gravity="center"
                     android:layout_width="@dimen/my_profile_user_image_size"
                     android:layout_height="@dimen/my_profile_user_image_size"
                     android:contentDescription="@string/image_contentDescription"
@@ -72,20 +60,22 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="70dp">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/my_profile_name_til_marginTop">
 
                     <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/registerNameView"
+                        android:id="@+id/et_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="username"
-                        android:inputType="textPersonName"
-                        android:textSize="@dimen/register_text_size" />
+                        android:hint="@string/name"
+                        android:textSize="16dp" />
+
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/my_profile_name_til_marginTop">
 
                     <RadioGroup
                         android:id="@+id/RegisterGenderGroup"
@@ -117,23 +107,19 @@
                     </RadioGroup>
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <TextView
-                    android:id="@+id/errorGender"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/holo_red_light" />
-
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="70dp">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/my_profile_et_email_marginTop">
 
                     <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/registerEmailView"
+                        android:id="@+id/et_email"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:hint="email"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/email"
                         android:inputType="textEmailAddress"
-                        android:textSize="@dimen/register_text_size" />
+                        android:textSize="16dp" />
+
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <LinearLayout
@@ -222,15 +208,6 @@
                         android:textSize="18dp" />
                 </LinearLayout>
 
-                <Button
-                    android:id="@+id/registerBirthDayBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/shape_button_rounded"
-                    android:text="Calendar"
-                    android:textColor="@color/white"
-                    app:icon="@drawable/calendar_24" />
-
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="70dp"
@@ -247,76 +224,37 @@
                         android:textSize="@dimen/register_text_size" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="70sp"
-                    android:layout_marginTop="@dimen/fragment_vertical_margin">
-
-                    <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/registerPasswordView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="password"
-                        android:inputType="textPassword"
-                        android:textSize="@dimen/register_text_size" />
-                </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="70sp"
-                    android:layout_marginTop="@dimen/fragment_vertical_margin">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/my_profile_et_mobile_marginTop">
 
                     <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/registerOneMorePasswordView"
+                        android:id="@+id/et_mobile"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="passwordをもう一回入力"
-                        android:inputType="textPassword"
-                        android:textSize="@dimen/register_text_size" />
+                        android:hint="@string/mobile"
+                        android:inputType="phone"
+                        android:textSize="16dp" />
+
                 </com.google.android.material.textfield.TextInputLayout>
-
-                <TextView
-                    android:id="@+id/errorMatchPassCheck"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/holo_red_light" />
-
-                <CheckBox
-                    android:id="@+id/consentCheck"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="私は会員規約に同意します。" />
-
-                <TextView
-                    android:id="@+id/errorConsentCheck"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/holo_red_light" />
 
                 <Button
-                    android:id="@+id/btn_register"
+                    android:id="@+id/btn_update"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="16sp"
+                    android:layout_marginTop="@dimen/my_profile_btn_update_marginTop"
                     android:background="@drawable/shape_button_rounded"
                     android:foreground="?attr/selectableItemBackground"
                     android:gravity="center"
-                    android:text="@string/register_btn"
-                    android:textColor="@android:color/white" />
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:text="@string/update"
+                    android:textColor="@android:color/white"
+                    android:textSize="16dp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
-
-        <ProgressBar
-            android:id="@+id/loading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@+id/toolbar_register_activity"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
