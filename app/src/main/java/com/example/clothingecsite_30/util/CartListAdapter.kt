@@ -1,106 +1,65 @@
 package com.example.clothingecsite_30.util
 
 import android.content.Context
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import android.widget.ArrayAdapter
 import android.widget.TextView
-import android.widget.Toast
-import androidx.recyclerview.widget.RecyclerView
+import androidx.annotation.RequiresApi
 import com.example.clothingecsite_30.R
-import com.example.clothingecsite_30.model.Item
+import com.example.clothingecsite_30.model.Cart
 import com.google.android.material.imageview.ShapeableImageView
 
 // interfaceの実装
-
+interface CartAdapterListener {
+    fun clicked(cart: Cart?)
+}
 
 class CartListAdapter(
-    private val context: Context?,
-    private val itemList: List<Item>
-) : RecyclerView.Adapter<CartListAdapter.ViewHolder>() {
+    context: Context?,
+    var itemList: MutableList<Cart>?,
+    private val listener: CartAdapterListener
+) : ArrayAdapter<Cart>(
+    context!!, 0,
+    itemList!!
+) {
 
-    // 1. リスナを格納する変数を定義（lateinitで初期化を遅らせている）
-    private lateinit var listener: CartAdapterListener
+    private val layoutInflater =
+        context?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
-    // 2. インターフェースを作成
-    interface CartAdapterListener {
-        fun onItemClick(view: View, position: Int, item: Item)
-    }
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+        // cartItemsの取得
+        val cartItems = itemList?.get(position)
 
-    // 3. リスナーをセット
-    fun setOnCartItemCellClickListener(listener: CartAdapterListener) {
-        // 定義した変数listenerに実行したい処理を引数で渡す（BookListFragmentで渡している）
-        this.listener = listener
-    }
-
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-
-        val name: TextView
-
-        init {
-            name = view.findViewById(R.id.cart_item_name)
+        // レイアウトの設定
+        var view = convertView
+        if (convertView == null) {
+            view = layoutInflater.inflate(R.layout.fragment_cart_list_dialog_item, parent, false)
         }
 
-        val totalPrice: TextView
-
-        init {
-            totalPrice = view.findViewById(R.id.total_price)
+        // 各Viewの設定
+        val imageView = view?.findViewById<ShapeableImageView>(R.id.cart_img_path)
+        if (cartItems != null) {
+            var imgPath = context.resources.getIdentifier(
+                cartItems.imgPath,
+                "drawable",
+                context.packageName
+            )
+            imageView?.setImageResource(imgPath)
         }
 
-        val imgPath: ShapeableImageView
+        val name = view?.findViewById<TextView>(R.id.cart_item_name)
+//        name?.text = cartItems?.name
 
-        init {
-            imgPath = view.findViewById(R.id.cart_img_path)
+        val totalPrice = view?.findViewById<TextView>(R.id.total_price)
+        totalPrice?.text = "¥${"%,d".format(cartItems?.totalPrice)}"
+
+        view?.findViewById<TextView>(R.id.deleteBtn)?.setOnClickListener {
+            listener.clicked(cartItems)
         }
-
-        val purchaseNum: TextView
-
-        init {
-            purchaseNum = view.findViewById(R.id.purchase_num)
-        }
-
-        val deleteBtn: Button
-
-        init {
-            deleteBtn = view.findViewById(R.id.deleteBtn)
-        }
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val layoutInflater = LayoutInflater.from(parent.context)
-        val view = layoutInflater.inflate(R.layout.fragment_cart_list_dialog_item, parent, false)
-        view.setOnClickListener {
-            Toast.makeText(
-                context,
-                "Click Pos=",
-                Toast.LENGTH_LONG
-            ).show()
-        }
-
-        return ViewHolder(view)
-    }
-
-    override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        val item = itemList[position]
-        viewHolder.name.text = item.name
-        viewHolder.totalPrice.text = "¥${"%,d".format(item.price)}"
-        val imgPath = context?.resources?.getIdentifier(
-            item.imgPath,
-            "drawable",
-            context.packageName
-        )
-        viewHolder.imgPath.setImageResource(imgPath!!)
-        viewHolder.purchaseNum.text = "2個";
-
-        viewHolder.deleteBtn.setOnClickListener {
-            listener.onItemClick(it, position, itemList[position])
-        }
-
-
-    }
-
-    override fun getItemCount(): Int {
-        return itemList.size
+        return view!!
     }
 }
