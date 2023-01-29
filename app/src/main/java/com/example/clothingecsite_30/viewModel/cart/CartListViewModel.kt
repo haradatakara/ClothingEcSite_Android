@@ -1,25 +1,38 @@
 package com.example.clothingecsite_30.viewModel.cart
 
-import androidx.lifecycle.LiveData
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.clothingecsite_30.model.Cart
-import com.example.clothingecsite_30.model.Item
 import com.example.clothingecsite_30.repository.CartListRepository
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
 
 class CartListViewModel(private val cartListRepository: CartListRepository) :
     ViewModel() {
 
-//    private val _cartList = MutableLiveData<MutableList<Cart>>()
+    //    private val _cartList = MutableLiveData<MutableList<Cart>>()
 //    val cartList: LiveData<MutableList<Cart>> = _cartList
     var cartItem = MutableLiveData<Cart>()
     var cartListItem = MutableLiveData<MutableList<Cart>>()
     var canPurchaseDb = MutableLiveData<Boolean>()
     var canCartListOpen = MutableLiveData<Boolean>()
+
+//    @RequiresApi(Build.VERSION_CODES.O)
+//    fun onClickPurchaseBtn() {
+//        viewModelScope.launch {
+//            canPurchaseDb.postValue(cartListRepository.purchaseComp(cartItem))
+//        }
+//    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun onClickAddCartBtn() {
+        viewModelScope.launch {
+            cartListRepository.onClickAddCartBtn(cartItem)
+            onClickCartBtn()
+        }
+    }
 
     fun onClickCartBtn() {
         viewModelScope.launch {
@@ -28,12 +41,10 @@ class CartListViewModel(private val cartListRepository: CartListRepository) :
         }
     }
 
-    fun onClickDeleteBtn(cart: Cart?): Boolean {
-        var canDatabase = false
+    fun onClickDeleteBtn(cart: Cart?) {
         viewModelScope.launch {
-            canDatabase = cartListRepository.onClickDeleteItem(cart)
+            canCartListOpen.value = cartListRepository.onClickDeleteItem(cart)
             cartListItem.value?.remove(cart)
         }
-        return canDatabase
     }
 }

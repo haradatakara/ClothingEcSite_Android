@@ -1,6 +1,5 @@
 package com.example.clothingecsite_30.view.dialog
 
-import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -9,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import com.example.clothingecsite_30.databinding.FragmentCartListDialogBinding
@@ -33,7 +33,7 @@ class CartListDialogFragment : BottomSheetDialogFragment(), CartAdapterListener 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentCartListDialogBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -55,28 +55,34 @@ class CartListDialogFragment : BottomSheetDialogFragment(), CartAdapterListener 
                 CartListViewModelFactory()
             )[CartListViewModel::class.java]
 
-         lvMenu = binding.list
-//        recyclerView.setHasFixedSize(true);
+        lvMenu = binding.list
 
         cartItemTask()
 
-        //LayoutManagerの設定
-        val layoutManager = LinearLayoutManager(context)
-//        recyclerView.layoutManager = layoutManager
+        LinearLayoutManager(context)
 
-//        activity?.findViewById<RecyclerView>(R.id.list)?.adapter =
-//            arguments?.getInt(ARG_ITEM_COUNT)?.let { ItemAdapter(it) }
+        cartListViewModel.canCartListOpen.observe(viewLifecycleOwner) {
+            if (it == true) {
+                displayCartItem(cartListViewModel.cartListItem.value)
+                Toast.makeText(
+                    context,
+                    "カートから削除されました",
+                    Toast.LENGTH_SHORT
+                ).show()
+                cartListViewModel.canCartListOpen.value = false
+            }
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun cartItemTask() {
         cartListViewModel.onClickCartBtn()
         cartListViewModel.cartListItem.observe(viewLifecycleOwner) {
-            displayCartItem(it, null)
+            displayCartItem(it)
         }
     }
 
-    private fun displayCartItem(result: MutableList<Cart>?, displayCon: Context?) {
+    private fun displayCartItem(result: MutableList<Cart>?) {
         cartItemAdapter = CartListAdapter(this.context, result, this)
         lvMenu.adapter = cartItemAdapter
     }
@@ -87,6 +93,6 @@ class CartListDialogFragment : BottomSheetDialogFragment(), CartAdapterListener 
     }
 
     override fun clicked(cart: Cart?) {
-        TODO("Not yet implemented")
+        cartListViewModel.onClickDeleteBtn(cart)
     }
 }
