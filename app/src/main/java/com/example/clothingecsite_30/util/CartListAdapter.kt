@@ -52,7 +52,7 @@ class CartListAdapter(
         }
 
         val name = view?.findViewById<TextView>(R.id.cart_item_name)
-//        name?.text = cartItems?.name
+        name?.text = cartItems?.name
 
         val totalPrice = view?.findViewById<TextView>(R.id.total_price)
         totalPrice?.text = "¥${"%,d".format(cartItems?.totalPrice)}"

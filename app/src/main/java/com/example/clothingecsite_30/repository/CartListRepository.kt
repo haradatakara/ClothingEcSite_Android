@@ -1,14 +1,18 @@
 package com.example.clothingecsite_30.repository
 
+import android.os.Build
+import androidx.annotation.RequiresApi
+import androidx.lifecycle.MutableLiveData
 import com.example.clothingecsite_30.model.Cart
-import com.example.clothingecsite_30.model.Item
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.ArrayList
 
 class CartListRepository {
@@ -16,33 +20,52 @@ class CartListRepository {
     private val fireDb = Firebase.firestore
     private var insertDataBase = false
 
-    suspend fun onClickDeleteItem(cart: Cart?): Boolean {
-        return withContext(Dispatchers.IO) {
-            val cartItemRef = fireDb.collection("items").document("8XEXmuKBrlP46cwEoEVi")
+    @RequiresApi(Build.VERSION_CODES.O)
+    suspend fun onClickAddCartBtn(
+        cartItem: MutableLiveData<Cart>,
+    ): Boolean {
+        withContext(Dispatchers.IO) {
+            val cartItemRef = fireDb.collection("cart").document(Firebase.auth.uid!!)
             cartItemRef.update(
-                hashMapOf<String, Any>(
-                    "itemId" to 8,
-                    "name" to "Gap",
-                    "price" to 4500,
-                    "genre" to "shoes",
-                    "imgPath" to "tobias_tullius_fg15ldqpwrs_unsplash"
+                "item", FieldValue.arrayUnion(
+                    hashMapOf(
+                        "itemId" to cartItem.value?.itemId,
+                        "totalPrice" to cartItem.value?.totalPrice,
+                        "addCartAt" to DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")
+                            .format(LocalDateTime.now())
+                    )
                 )
-            ).addOnSuccessListener {
-                insertDataBase = true
-            }
-            delay(500)
-            return@withContext insertDataBase
+            ).await()
+            insertDataBase = true
         }
+        return insertDataBase
+    }
+
+    suspend fun onClickDeleteItem(cart: Cart?): Boolean {
+        withContext(Dispatchers.IO) {
+            val cartItemRef =
+                fireDb
+                    .collection("cart")
+                    .document(Firebase.auth.uid!!)
+            cartItemRef.update(
+                "item", FieldValue.arrayRemove(
+                    hashMapOf(
+                        "itemId" to cart!!.itemId,
+                        "totalPrice" to cart.totalPrice,
+                        "addCartAt" to cart.addCartAt
+                    )
+                )
+            ).await()
+            insertDataBase = true
+        }
+        return insertDataBase
     }
 
 
     suspend fun fetchCartItems(): ArrayList<MutableMap<String, *>> {
         return withContext(Dispatchers.IO) {
             var arrayItems: ArrayList<MutableMap<String, *>> = ArrayList()
-            val cart = fireDb
-                .collection("cart")
-                .document(Firebase.auth.uid!!)
-                .get().await()
+            val cart = fireDb.collection("cart").document(Firebase.auth.uid!!).get().await()
             if (cart != null) {
                 arrayItems = cart.get("item") as ArrayList<MutableMap<String, *>>
             }
@@ -56,9 +79,8 @@ class CartListRepository {
         return withContext(Dispatchers.IO) {
             val itemList: MutableList<Cart> = mutableListOf()
             arrayItems.forEach { item ->
-                val fetchItem = fireDb.collection("items")
-                    .whereEqualTo("itemId", item["itemId"])
-                    .get().await()
+                val fetchItem =
+                    fireDb.collection("items").whereEqualTo("itemId", item["itemId"]).get().await()
                 fetchItem.forEach { itemInfo ->
                     itemList.add(
                         Cart(
@@ -70,10 +92,10 @@ class CartListRepository {
                         )
                     )
                 }
+            }
+            println("itemList:$itemList")
+            return@withContext itemList
         }
-        println("itemList:$itemList")
-        return@withContext itemList
     }
-}
 
 }
