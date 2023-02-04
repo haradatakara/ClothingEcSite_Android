@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/PurchaseRegisterIndividualFragment"
+    android:id="@+id/nav_graph_purchase_confirm">
+    <fragment
+        android:id="@+id/PurchaseRegisterIndividualFragment"
+        android:name="com.example.clothingecsite_30.view.PurchaseRegisterIndividualFragment"
+        android:label="@string/login_fragment_label"
+        tools:layout="@layout/fragment_purchase_register_individual" />
+
+    <fragment
+        android:id="@+id/CartListDialogFragment"
+        android:name="com.example.clothingecsite_30.view.dialog.CartListDialogFragment"
+        android:label="@string/purchase_confirm"
+        tools:layout="@layout/fragment_cart_list_dialog">
+        <action
+            android:id="@+id/action_PurchaseRegisterIndividualFragment_to_CartListDialogFragment"
+            app:destination="@id/PurchaseRegisterIndividualFragment"
+            app:enterAnim="@anim/slide_from_right"
+            app:exitAnim="@anim/slide_to_left" />
+    </fragment>
+
+</navigation>

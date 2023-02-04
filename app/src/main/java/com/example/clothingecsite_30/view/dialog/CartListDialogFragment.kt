@@ -1,5 +1,6 @@
 package com.example.clothingecsite_30.view.dialog
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -15,6 +16,7 @@ import com.example.clothingecsite_30.databinding.FragmentCartListDialogBinding
 import com.example.clothingecsite_30.model.Cart
 import com.example.clothingecsite_30.util.CartAdapterListener
 import com.example.clothingecsite_30.util.CartListAdapter
+import com.example.clothingecsite_30.view.PurchaseConfirmActivity
 import com.example.clothingecsite_30.viewModel.cart.CartListViewModel
 import com.example.clothingecsite_30.viewModel.cart.CartListViewModelFactory
 
@@ -31,8 +33,7 @@ class CartListDialogFragment : BottomSheetDialogFragment(), CartAdapterListener 
 
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCartListDialogBinding.inflate(inflater, container, false)
         return binding.root
@@ -43,41 +44,43 @@ class CartListDialogFragment : BottomSheetDialogFragment(), CartAdapterListener 
 
         lvMenu = binding.list
 
-        itemMenuListViewModel =
-            ViewModelProvider(
-                requireActivity(),
-                CartListViewModelFactory()
-            )[CartListViewModel::class.java]
+        itemMenuListViewModel = ViewModelProvider(
+            requireActivity(), CartListViewModelFactory()
+        )[CartListViewModel::class.java]
 
-        cartListViewModel =
-            ViewModelProvider(
-                requireActivity(),
-                CartListViewModelFactory()
-            )[CartListViewModel::class.java]
+        cartListViewModel = ViewModelProvider(
+            requireActivity(), CartListViewModelFactory()
+        )[CartListViewModel::class.java]
 
         lvMenu = binding.list
+        val loadingProgressBar = binding.loading
 
         cartItemTask()
 
         LinearLayoutManager(context)
 
         cartListViewModel.canCartListOpen.observe(viewLifecycleOwner) {
+            loadingProgressBar.visibility = View.GONE
             if (it == true) {
                 displayCartItem(cartListViewModel.cartListItem.value)
                 Toast.makeText(
-                    context,
-                    "カートから削除されました",
-                    Toast.LENGTH_SHORT
+                    context, "カートから削除されました", Toast.LENGTH_SHORT
                 ).show()
                 cartListViewModel.canCartListOpen.value = false
             }
+        }
+
+        binding.purchaseBtn.setOnClickListener {
+            startActivity(Intent(this.requireContext(), PurchaseConfirmActivity::class.java))
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun cartItemTask() {
+        binding.loading.visibility = View.VISIBLE
         cartListViewModel.onClickCartBtn()
         cartListViewModel.cartListItem.observe(viewLifecycleOwner) {
+            binding.loading.visibility = View.GONE
             displayCartItem(it)
         }
     }
@@ -93,6 +96,7 @@ class CartListDialogFragment : BottomSheetDialogFragment(), CartAdapterListener 
     }
 
     override fun clicked(cart: Cart?) {
+        binding.loading.visibility = View.VISIBLE
         cartListViewModel.onClickDeleteBtn(cart)
     }
 }

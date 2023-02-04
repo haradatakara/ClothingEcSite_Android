@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
-import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -36,32 +35,26 @@ class PurchaseRegisterIndividualFragment : Fragment() {
     private val binding get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentPurchaseRegisterIndividualBinding.inflate(inflater, container, false)
         return binding.root
+
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        addressViewModel =
-            ViewModelProvider(
-                requireActivity(),
-                AddressViewModelFactory()
-            )[AddressViewModel::class.java]
-        loginViewModel =
-            ViewModelProvider(
-                requireActivity(),
-                LoginViewModelFactory()
-            )[LoginViewModel::class.java]
-        purchaseRegisterViewModel =
-            ViewModelProvider(
-                requireActivity(),
-                PurchaseRegisterViewModelFactory()
-            )[PurchaseRegisterViewModel::class.java]
+        addressViewModel = ViewModelProvider(
+            requireActivity(), AddressViewModelFactory()
+        )[AddressViewModel::class.java]
+        loginViewModel = ViewModelProvider(
+            requireActivity(), LoginViewModelFactory()
+        )[LoginViewModel::class.java]
+        purchaseRegisterViewModel = ViewModelProvider(
+            requireActivity(), PurchaseRegisterViewModelFactory()
+        )[PurchaseRegisterViewModel::class.java]
 
         //loginUser情報を取得
         loginViewModel.fetchLoginUser()
@@ -96,9 +89,7 @@ class PurchaseRegisterIndividualFragment : Fragment() {
             binding.loading.visibility = View.GONE
             if (it == null) {
                 Toast.makeText(
-                    requireContext(),
-                    "入力された住所は存在しませんでした",
-                    Toast.LENGTH_LONG
+                    requireContext(), "入力された住所は存在しませんでした", Toast.LENGTH_LONG
                 ).show()
                 (binding.registerPrefectureCityView as TextView).text = ""
                 (binding.registerAddressView as TextView).text = ""
@@ -137,15 +128,14 @@ class PurchaseRegisterIndividualFragment : Fragment() {
         val year = c.get(Calendar.YEAR)
         val month = c.get(Calendar.MONTH)
         val day = c.get(Calendar.DAY_OF_MONTH)
-        val calendar =
-            DatePickerDialog(
-                requireContext(),
-                R.style.DatePickerDialog_Spinner,
-                DialogDateButtonClickLister(),
-                year,
-                month,
-                day
-            )
+        val calendar = DatePickerDialog(
+            requireContext(),
+            R.style.DatePickerDialog_Spinner,
+            DialogDateButtonClickLister(),
+            year,
+            month,
+            day
+        )
 
         val maxCal = Calendar.getInstance()
         maxCal.add(Calendar.MONTH, 6) //1ヶ月後
@@ -169,17 +159,13 @@ class PurchaseRegisterIndividualFragment : Fragment() {
     private inner class DialogDateButtonClickLister : DatePickerDialog.OnDateSetListener {
         @RequiresApi(Build.VERSION_CODES.O)
         override fun onDateSet(p0: DatePicker, year: Int, month: Int, day: Int) {
-            val yearText = activity?.findViewById<EditText>(R.id.registerBirthYearView) as TextView
-            yearText.text = year.toString()
+            (binding.registerDeliveryYearView as TextView).text = year.toString()
             binding.registerDeliveryYearView.error = null
 
-            val monthText =
-                activity?.findViewById<EditText>(R.id.registerBirthMonthView) as TextView
-            monthText.text = (month + 1).toString()
+            (binding.registerDeliveryMonthView as TextView).text = (month + 1).toString()
             binding.registerDeliveryMonthView.error = null
 
-            val dayText = activity?.findViewById<EditText>(R.id.registerBirthDayView) as TextView
-            dayText.text = day.toString()
+            (binding.registerDeliveryDateView as TextView).text = day.toString()
             binding.registerDeliveryDateView.error = null
         }
     }
