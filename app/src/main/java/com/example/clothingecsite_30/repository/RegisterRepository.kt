@@ -34,6 +34,10 @@ class RegisterRepository {
                 .await()
             val user = fireAuth.currentUser
             if (user != null) {
+                // 画像登録(storage)
+                registerImage(userInfo["image"]!!, user.uid)
+
+                // 個人情報登録(fireStore)
                 //画像登録(storage)
                 registerImage(userInfo["image"]!!, user.uid)
                 //個人情報登録(fireStore)
@@ -64,6 +68,8 @@ class RegisterRepository {
                 "name" to userInfo["username"],
                 "email" to userInfo["email"],
                 "address" to userInfo["address"],
+                "prefecture" to userInfo["prefecture"],
+                "mansion" to userInfo["mansion"],
                 "birth" to userInfo["birth"],
                 "gender" to userInfo["gender"]
             )

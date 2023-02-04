@@ -33,6 +33,8 @@ class RegisterViewModel
         username: String,
         email: String,
         address: String,
+        prefectureCity: String,
+        mansion: String,
         birthYear: String,
         birthMonth: String,
         birthDay: String,
@@ -72,6 +74,9 @@ class RegisterViewModel
                 "username" to username,
                 "email" to email,
                 "password" to pass,
+                "address" to address,
+                "prefecture" to prefectureCity,
+                "mansion" to mansion,
                 "address" to address,
                 "birth" to "${birthYear}/${birthMonth}/${birthDay}",
                 "gender" to selectGender!!

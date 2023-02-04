@@ -11,9 +11,9 @@
         tools:layout="@layout/fragment_menu_list_scrolling">
         <action
             android:id="@+id/action_TopFragment_to_MenuListFragment"
+            app:destination="@id/FirstFragment"
             app:enterAnim="@anim/slide_from_right"
-            app:exitAnim="@anim/slide_to_left"
-            app:destination="@id/FirstFragment" />
+            app:exitAnim="@anim/slide_to_left" />
         <action
             android:id="@+id/action_MenuDetailFragment_to_MenuListFragment"
             app:destination="@id/MenuDetailFragment"
@@ -40,12 +40,18 @@
         android:id="@+id/PurchaseRegisterIndividualFragment"
         android:name="com.example.clothingecsite_30.view.PurchaseRegisterIndividualFragment"
         android:label="@string/login_fragment_label"
-        tools:layout="@layout/fragment_purchase_register_individual">
-<!--        <action-->
-<!--            android:id="@+id/action_PurchaseRegisterIndividualFragment_to_MenuListFragment"-->
-<!--            app:destination="@id/"-->
-<!--            app:enterAnim="@anim/slide_from_right"-->
-<!--            app:exitAnim="@anim/slide_to_left" />-->
+        tools:layout="@layout/fragment_purchase_register_individual" />
+
+    <fragment
+        android:id="@+id/CartListDialogFragment"
+        android:name="com.example.clothingecsite_30.view.dialog.CartListDialogFragment"
+        android:label="@string/purchase_confirm"
+        tools:layout="@layout/fragment_cart_list_dialog">
+        <action
+            android:id="@+id/action_PurchaseRegisterIndividualFragment_to_CartListDialogFragment"
+            app:destination="@id/PurchaseRegisterIndividualFragment"
+            app:enterAnim="@anim/slide_from_right"
+            app:exitAnim="@anim/slide_to_left" />
     </fragment>
 
 </navigation>
