@@ -23,6 +23,8 @@ import com.example.clothingecsite_30.util.textWatcher.CustomTextWatcherListener
 import com.example.clothingecsite_30.viewModel.authentication.RegisterViewModel
 import com.example.clothingecsite_30.R
 import com.example.clothingecsite_30.databinding.FragmentRegisterBinding
+import com.example.clothingecsite_30.viewModel.address.AddressViewModel
+import com.example.clothingecsite_30.viewModel.address.AddressViewModelFactory
 import com.example.clothingecsite_30.viewModel.authentication.RegisterViewModelFactory
 import java.util.*
 
@@ -30,6 +32,7 @@ import java.util.*
 class RegisterFragment : Fragment(), CustomTextWatcherListener {
 
     private lateinit var registerViewModel: RegisterViewModel
+    private lateinit var addressViewModel: AddressViewModel
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
 
@@ -53,12 +56,17 @@ class RegisterFragment : Fragment(), CustomTextWatcherListener {
         super.onViewCreated(view, savedInstanceState)
         registerViewModel =
             ViewModelProvider(this, RegisterViewModelFactory())[RegisterViewModel::class.java]
+        addressViewModel = ViewModelProvider(
+            requireActivity(), AddressViewModelFactory()
+        )[AddressViewModel::class.java]
 
         val loadingProgressBar = binding.loading
 
         val userNameEditText = binding.registerNameView
         val emailEditText = binding.registerEmailView
         val addressEditText = binding.registerAddressView
+        val prefectureCityEditText = binding.registerPrefectureCityView
+        val mansionEditText = binding.registerMansionView
         val birthDayEditText = binding.registerBirthDayView
         val birthMonthEditText = binding.registerBirthMonthView
         val birthYearEditText = binding.registerBirthYearView
@@ -173,6 +181,27 @@ class RegisterFragment : Fragment(), CustomTextWatcherListener {
             resultLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
 
+        binding.addressFetchBtn.setOnClickListener {
+            binding.loading.visibility = View.VISIBLE
+            addressViewModel.fetchAddress(binding.registerAddressView.text.toString().toInt())
+        }
+
+
+        addressViewModel.address.observe(viewLifecycleOwner) {
+            binding.loading.visibility = View.GONE
+            if (it == null) {
+                Toast.makeText(
+                    requireContext(), "入力された住所は存在しませんでした", Toast.LENGTH_LONG
+                ).show()
+                (prefectureCityEditText as TextView).text = ""
+                (addressEditText as TextView).text = ""
+            } else {
+                (prefectureCityEditText as TextView).text =
+                    "${it.prefecture}${it.city}${it.address}"
+                (addressEditText as TextView).text = it.zipcode.toString()
+            }
+        }
+
         // ログインボタン押下時の処理
         registerBtn.setOnClickListener {
             loadingProgressBar.visibility = View.VISIBLE
@@ -182,6 +211,8 @@ class RegisterFragment : Fragment(), CustomTextWatcherListener {
                 userNameEditText.text.toString(),
                 emailEditText.text.toString(),
                 addressEditText.text.toString(),
+                prefectureCityEditText.text.toString(),
+                mansionEditText.text.toString(),
                 birthYearEditText.text.toString(),
                 birthMonthEditText.text.toString(),
                 birthDayEditText.text.toString(),
