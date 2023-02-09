@@ -23,21 +23,26 @@ import com.example.clothingecsite_30.util.textWatcher.CustomTextWatcherListener
 import com.example.clothingecsite_30.viewModel.authentication.RegisterViewModel
 import com.example.clothingecsite_30.R
 import com.example.clothingecsite_30.databinding.FragmentRegisterBinding
+import com.example.clothingecsite_30.enum.Gender
 import com.example.clothingecsite_30.viewModel.address.AddressViewModel
 import com.example.clothingecsite_30.viewModel.address.AddressViewModelFactory
 import com.example.clothingecsite_30.viewModel.authentication.RegisterViewModelFactory
 import java.util.*
 
-
-class RegisterFragment : Fragment(), CustomTextWatcherListener {
+/**
+ * 会員登録画面
+ *
+ */
+class RegisterFragment : Fragment() {
 
     private lateinit var registerViewModel: RegisterViewModel
     private lateinit var addressViewModel: AddressViewModel
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
 
-    private var profileImageUri: Uri? = null
-
+    /**
+     * 画像ギャラリーを開くメソッド
+     */
     private val resultLauncher =
         registerForActivityResult(ActivityResultContracts.PickVisualMedia()) {
             openImage(it)
@@ -55,7 +60,13 @@ class RegisterFragment : Fragment(), CustomTextWatcherListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         registerViewModel =
-            ViewModelProvider(this, RegisterViewModelFactory())[RegisterViewModel::class.java]
+            ViewModelProvider(
+                requireActivity(),
+                RegisterViewModelFactory()
+            )[RegisterViewModel::class.java]
+
+        binding.viewModel = registerViewModel
+
         addressViewModel = ViewModelProvider(
             requireActivity(), AddressViewModelFactory()
         )[AddressViewModel::class.java]
@@ -66,7 +77,6 @@ class RegisterFragment : Fragment(), CustomTextWatcherListener {
         val emailEditText = binding.registerEmailView
         val addressEditText = binding.registerAddressView
         val prefectureCityEditText = binding.registerPrefectureCityView
-        val mansionEditText = binding.registerMansionView
         val birthDayEditText = binding.registerBirthDayView
         val birthMonthEditText = binding.registerBirthMonthView
         val birthYearEditText = binding.registerBirthYearView
@@ -74,51 +84,37 @@ class RegisterFragment : Fragment(), CustomTextWatcherListener {
         val oneMorePasswordEditText = binding.registerOneMorePasswordView
         val genderSelectBox = binding.RegisterGenderGroup
         val registerBtn = binding.btnRegister
-        val consentCheckBox = binding.consentCheck
 
         val scrollView = binding.scrollRegister
 
-        var selectGender: String? = null
 
-        var isConsentChecked = false
-        consentCheckBox.setOnClickListener {
-            isConsentChecked = consentCheckBox.isChecked
-            registerViewModel.isConsentCheckValid(isConsentChecked)
-            if (isConsentChecked) {
-                binding.errorConsentCheck.text = ""
-            }
-        }
-
-        enterTextChangedListener(
-            userNameEditText,
-            emailEditText,
-            addressEditText,
-            birthDayEditText,
-            birthMonthEditText,
-            birthYearEditText,
-            passwordEditText,
-            oneMorePasswordEditText
-        )
-
+        /**
+         * 会員登録ボタン
+         */
         binding.registerBirthDayBtn.setOnClickListener {
             showDatePickerDialog(requireView())
         }
+        /**
+         * 性別セレクトボックス
+         */
         genderSelectBox.setOnCheckedChangeListener { _, i ->
             when (i) {
                 R.id.gender_man -> {
-                    selectGender = "男性"
+                    registerViewModel.gender.value = Gender.MAN.value
                     binding.errorGender.text = ""
                 }
                 R.id.gender_woman -> {
-                    selectGender = "女性"
+                    registerViewModel.gender.value  = Gender.WOMAN.value
                     binding.errorGender.text = ""
                 }
                 R.id.gender_other -> {
-                    selectGender = "その他"
+                    registerViewModel.gender.value  = Gender.OTHER.value
                     binding.errorGender.text = ""
                 }
             }
         }
+
+
         registerViewModel.registerFormState.observe(viewLifecycleOwner,
             Observer { registerFormState ->
                 if (registerFormState == null) {
@@ -164,6 +160,9 @@ class RegisterFragment : Fragment(), CustomTextWatcherListener {
                 }
             })
 
+        /**
+         * 会員登録ボタン押下後、登録完了できたか判断する
+         */
         registerViewModel.registerResult.observe(viewLifecycleOwner, Observer { loginResult ->
             loginResult ?: return@Observer
             loadingProgressBar.visibility = View.GONE
@@ -177,16 +176,63 @@ class RegisterFragment : Fragment(), CustomTextWatcherListener {
             }
         })
 
+        /**
+         * 写真ボタン押下時のリスナー
+         */
         binding.ivProfileUserImage.setOnClickListener {
             resultLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
 
+        /**
+         * 住所検索ボタン押下時のリスナー
+         */
         binding.addressFetchBtn.setOnClickListener {
             binding.loading.visibility = View.VISIBLE
+            if(binding.registerAddressView.text.isNullOrBlank()) {
+                return@setOnClickListener
+            }
             addressViewModel.fetchAddress(binding.registerAddressView.text.toString().toInt())
         }
 
+        /**
+         * バリデーションチェック
+         */
+        registerViewModel.name.observe(viewLifecycleOwner) {
+            registerViewModel.isUserNameValid(it)
+        }
+        registerViewModel.email.observe(viewLifecycleOwner) {
+            registerViewModel.isEmailValid(it)
+        }
+        registerViewModel.birthYear.observe(viewLifecycleOwner) {
+            registerViewModel.isBirthYearValid(it.toString())
+        }
+        registerViewModel.birthMonth.observe (viewLifecycleOwner) {
+            registerViewModel.isBirthMonthValid(it.toString())
+        }
+        registerViewModel.birthDay.observe (viewLifecycleOwner) {
+            registerViewModel.isBirthDayValid(it.toString())
+        }
+        registerViewModel.zipcode.observe (viewLifecycleOwner) {
+            registerViewModel.isZipCodeValid(it.toString())
+        }
+        registerViewModel.prefectureCity.observe (viewLifecycleOwner) {
+            registerViewModel.isPrefectureCityValid(it.toString())
+        }
+        registerViewModel.password.observe (viewLifecycleOwner) {
+            registerViewModel.isPasswordValid(it.toString())
+        }
+        registerViewModel.oneMorePassword.observe (viewLifecycleOwner) {
+            registerViewModel.isPasswordValid(it.toString())
+        }
+        registerViewModel.isConsentChecked.observe (viewLifecycleOwner) {
+            if (it) { binding.errorConsentCheck.text = "" }
+            registerViewModel.isConsentCheckValid(it)
+        }
 
+
+        /**
+         * 住所検索ボタン押下時の検索結果に関するオブザーブ
+         */
         addressViewModel.address.observe(viewLifecycleOwner) {
             binding.loading.visibility = View.GONE
             if (it == null) {
@@ -202,142 +248,35 @@ class RegisterFragment : Fragment(), CustomTextWatcherListener {
             }
         }
 
-        // ログインボタン押下時の処理
+
+        /**
+         * ログインボタン押下時の処理
+         */
         registerBtn.setOnClickListener {
             loadingProgressBar.visibility = View.VISIBLE
             scrollView.post { scrollView.fullScroll(ScrollView.FOCUS_UP) }
-            registerViewModel.register(
-                profileImageUri,
-                userNameEditText.text.toString(),
-                emailEditText.text.toString(),
-                addressEditText.text.toString(),
-                prefectureCityEditText.text.toString(),
-                mansionEditText.text.toString(),
-                birthYearEditText.text.toString(),
-                birthMonthEditText.text.toString(),
-                birthDayEditText.text.toString(),
-                passwordEditText.text.toString(),
-                oneMorePasswordEditText.text.toString(),
-                isConsentChecked,
-                selectGender
-            )
+            registerViewModel.register()
         }
 
 
         super.onViewCreated(view, savedInstanceState)
     }
 
-    //ログイン成功時のトースト
+    /**
+     * ログイン成功時のトースト
+     */
     private fun updateUiWithUser(model: LoggedInUserView) {
         val welcome = getString(R.string.welcome) + model.displayName
         val appContext = context?.applicationContext ?: return
         Toast.makeText(appContext, welcome, Toast.LENGTH_LONG).show()
     }
 
-    // ログイン失敗時のトースト
+    /**
+     * ログイン失敗時のトースト
+     */
     private fun showLoginFailed(@StringRes errorString: Int) {
         binding.registerEmailView.error = getString(errorString)
     }
-
-    private fun enterTextChangedListener(
-        userNameEditText: EditText,
-        emailEditText: EditText,
-        addressEditText: EditText,
-        birthDayEditText: EditText,
-        birthMonthEditText: EditText,
-        birthYearEditText: EditText,
-        passwordEditText: EditText,
-        oneMorePasswordEditText: EditText,
-    ) {
-        userNameEditText.apply {
-            addTextChangedListener(
-                CustomTextWatcher(
-                    this, this@RegisterFragment
-                )
-            )
-        }
-        emailEditText.apply {
-            addTextChangedListener(
-                CustomTextWatcher(
-                    this, this@RegisterFragment
-                )
-            )
-        }
-        addressEditText.apply {
-            addTextChangedListener(
-                CustomTextWatcher(
-                    this, this@RegisterFragment
-                )
-            )
-        }
-        birthDayEditText.apply {
-            addTextChangedListener(
-                CustomTextWatcher(
-                    this, this@RegisterFragment
-                )
-            )
-        }
-        birthMonthEditText.apply {
-            addTextChangedListener(
-                CustomTextWatcher(
-                    this, this@RegisterFragment
-                )
-            )
-        }
-        birthYearEditText.apply {
-            addTextChangedListener(
-                CustomTextWatcher(
-                    this, this@RegisterFragment
-                )
-            )
-        }
-        passwordEditText.apply {
-            addTextChangedListener(
-                CustomTextWatcher(
-                    this, this@RegisterFragment
-                )
-            )
-        }
-        oneMorePasswordEditText.apply {
-            addTextChangedListener(
-                CustomTextWatcher(
-                    this, this@RegisterFragment
-                )
-            )
-        }
-    }
-
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    override fun afterTextChanged(view: View, p0: Editable?) {
-        val inputStr: String = p0.toString()
-        when (view.id) {
-            R.id.registerNameView -> {
-                registerViewModel.isUserNameValid(inputStr)
-            }
-            R.id.registerEmailView -> {
-                registerViewModel.isEmailValid(inputStr)
-            }
-            R.id.registerAddressView -> {
-                registerViewModel.isAddressValid(inputStr)
-            }
-            R.id.registerBirthYearView -> {
-                registerViewModel.isBirthYearValid(inputStr)
-            }
-            R.id.registerBirthMonthView -> {
-                registerViewModel.isBirthMonthValid(inputStr)
-            }
-            R.id.registerBirthDayView -> {
-                registerViewModel.isBirthDayValid(inputStr)
-            }
-            R.id.registerPasswordView -> {
-                registerViewModel.isPasswordValid(inputStr)
-            }
-        }
-    }
-
-    override fun beforeTextChanged(view: View, p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-    override fun onTextChanged(view: View, p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -360,10 +299,16 @@ class RegisterFragment : Fragment(), CustomTextWatcherListener {
         calendar.show()
     }
 
+    /**
+     * プロフィール画像選択後
+     */
     private fun openImage(uri: Uri?) {
-        profileImageUri = uri
+        registerViewModel.profileImageUri.value = uri!!
     }
 
+    /**
+     * カレンダーの日付選択後の動き
+     */
     private inner class DialogDateButtonClickLister : DatePickerDialog.OnDateSetListener {
         @RequiresApi(Build.VERSION_CODES.O)
         override fun onDateSet(p0: DatePicker, year: Int, month: Int, day: Int) {
@@ -382,3 +327,4 @@ class RegisterFragment : Fragment(), CustomTextWatcherListener {
         }
     }
 }
+

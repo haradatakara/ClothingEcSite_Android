@@ -13,6 +13,7 @@ import com.example.clothingecsite_30.data.authentication.AuthenticationResult
 import com.example.clothingecsite_30.data.authentication.LoggedInUserView
 import com.example.clothingecsite_30.data.authentication.RegisterFormState
 import com.example.clothingecsite_30.model.authentication.Result
+import com.example.clothingecsite_30.model.authentication.register.RegisterUser
 import com.example.clothingecsite_30.repository.RegisterRepository
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -27,68 +28,89 @@ class RegisterViewModel
     private val _registerResult = MutableLiveData<AuthenticationResult>()
     val registerResult: LiveData<AuthenticationResult> = _registerResult
 
+    val registerUser = MutableLiveData<RegisterUser>()
+
+
+    val name = MutableLiveData<String>()
+
+    var profileImageUri = MutableLiveData<Uri>()
+
+    var gender = MutableLiveData<String>()
+
+    val birthYear = MutableLiveData<String>()
+
+    val birthMonth = MutableLiveData<String>()
+
+    val birthDay = MutableLiveData<String>()
+
+    val email = MutableLiveData<String>()
+
+    val zipcode = MutableLiveData<String>()
+
+    val prefectureCity = MutableLiveData<String>()
+
+    val mansion = MutableLiveData<String>()
+
+    val password = MutableLiveData<String>()
+
+    val oneMorePassword = MutableLiveData<String>()
+
+    val isConsentChecked = MutableLiveData<Boolean>()
+
     @RequiresApi(Build.VERSION_CODES.O)
     fun register(
-        profileImageUri: Uri?,
-        username: String,
-        email: String,
-        address: String,
-        prefectureCity: String,
-        mansion: String,
-        birthYear: String,
-        birthMonth: String,
-        birthDay: String,
-        pass: String,
-        oneMorePass: String,
-        isConsentChecked: Boolean,
-        selectGender: String?
+
     ) {
         var isValid = true
 
-        if (!isUserNameValid(username)) isValid = false
+        if (!isUserNameValid(name.value)) isValid = false
 
-        if (!isEmailValid(email)) isValid = false
+        if (!isEmailValid(email.value)) isValid = false
 
-        if (!isAddressValid(address)) isValid = false
+        if (!isZipCodeValid(zipcode.value)) isValid = false
 
-        if (!isBirthYearValid(birthYear)) isValid = false
+        if (!isPrefectureCityValid(prefectureCity.value)) isValid = false
 
-        if (!isBirthMonthValid(birthMonth)) isValid = false
+        if (!isBirthYearValid(birthYear.value)) isValid = false
 
-        if (!isBirthDayValid(birthDay)) isValid = false
+        if (!isBirthMonthValid(birthMonth.value)) isValid = false
 
-        if (!isPasswordValid(pass)) isValid = false
+        if (!isBirthDayValid(birthDay.value)) isValid = false
 
-        if (!isPasswordValid(oneMorePass)) isValid = false
+        if (!isPasswordValid(password.value)) isValid = false
 
-        if (!matchPass(pass, oneMorePass)) isValid = false
+        if (!isPasswordValid(oneMorePassword.value)) isValid = false
 
-        if (!isConsentCheckValid(isConsentChecked)) isValid = false
+        if (!matchPass(password.value, oneMorePassword.value)) isValid = false
 
-        if (isGenderValid(selectGender) == false) isValid = false
+        if (!isConsentCheckValid(isConsentChecked.value)) isValid = false
+
+        if (isGenderValid(gender.value) == false) isValid = false
 
         if (isValid) {
             //登録処理
-            val userInfo = hashMapOf(
-                "image" to profileImageUri.toString(),
-                "username" to username,
-                "email" to email,
-                "password" to pass,
-                "address" to address,
-                "prefecture" to prefectureCity,
-                "mansion" to mansion,
-                "address" to address,
-                "birth" to "${birthYear}/${birthMonth}/${birthDay}",
-                "gender" to selectGender!!
+
+            val registerUser = RegisterUser(
+                profileImageUri.value.toString(),
+                gender.value!!,
+                "${birthYear.value}/${birthMonth.value}/${birthDay.value}",
+                email.value!!,
+                zipcode.value!!,
+                prefectureCity.value!!,
+                mansion.value,
+                name.value!!,
+                password.value!!
             )
+
             viewModelScope.launch {
-                when (val result = registerRepository.register(userInfo)) {
+                when (val result = registerRepository.register(registerUser)) {
                     is Result.Success -> {
                         _registerResult.value =
                             AuthenticationResult(success = LoggedInUserView(displayName = result.data.username))
                     }
                     else -> {
-                        _registerResult.value = AuthenticationResult(error = R.string.deplicate_mail)
+                        _registerResult.value =
+                            AuthenticationResult(error = R.string.deplicate_mail)
                         RegisterFormState(cannotRegisterError = R.string.invalid_can_not_register)
                     }
                 }
@@ -99,9 +121,9 @@ class RegisterViewModel
         }
     }
 
-    fun isConsentCheckValid(isConsentChecked: Boolean): Boolean {
+    fun isConsentCheckValid(isConsentChecked: Boolean?): Boolean {
         var isValid = false
-        if (!isConsentChecked) {
+        if (isConsentChecked == false || isConsentChecked == null) {
             _registerForm.value =
                 RegisterFormState(consentCheckError = R.string.invalid_not_check_consent)
         } else {
@@ -122,9 +144,9 @@ class RegisterViewModel
         return isValid
     }
 
-    fun isUserNameValid(username: String): Boolean {
+    fun isUserNameValid(username: String?): Boolean {
         var isValid = false
-        if (username.isBlank()) {
+        if (username.isNullOrBlank()) {
             _registerForm.value = RegisterFormState(usernameError = R.string.invalid_not_input)
         } else {
             isValid = true
@@ -133,9 +155,13 @@ class RegisterViewModel
         return isValid
     }
 
-    fun isEmailValid(email: String): Boolean {
+    fun isEmailValid(email: String?): Boolean {
         var isValid = false
-        if (!Regex("^[a-zA-Z0-9_+-]+(.[a-zA-Z0-9_+-]+)*@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\\.)+[a-zA-Z]{2,}\$"
+        if (email.isNullOrBlank()) {
+            _registerForm.value = RegisterFormState(mailAddressError = R.string.invalid_not_input)
+        } else if (
+            !Regex(
+                "^[a-zA-Z0-9_+-]+(.[a-zA-Z0-9_+-]+)*@([a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\\.)+[a-zA-Z]{2,}\$"
             ).matches(email)
         ) {
             _registerForm.value =
@@ -147,22 +173,32 @@ class RegisterViewModel
         return isValid
     }
 
-    fun isAddressValid(address: String): Boolean {
+    fun isZipCodeValid(address: String?): Boolean {
         var isValid = false
-        if (address.length != 7) {
+        if (address?.length != 7) {
             _registerForm.value = RegisterFormState(zipcodeError = R.string.invalid_address)
         } else {
             isValid = true
         }
-
         return isValid
     }
 
-    fun isPasswordValid(pass: String): Boolean {
+    fun isPrefectureCityValid(prefectureCity: String?): Boolean {
+        var isValid = false
+        if (prefectureCity.isNullOrBlank()) {
+            _registerForm.value =
+                RegisterFormState(prefectureCityError = R.string.invalid_not_input)
+        } else {
+            isValid = true
+        }
+        return isValid
+    }
+
+    fun isPasswordValid(pass: String?): Boolean {
         var isValid = false
         //デフォルトで半角入力しか受け付けない仕様なのでチェックなし
         //大文字と記号を含むかどうか
-        if (pass.isBlank()) {
+        if (pass.isNullOrBlank()) {
             _registerForm.value = RegisterFormState(passwordError = R.string.invalid_not_input)
         } else if (!Regex("^(?=.*[A-Z])(?=.*[.?/-])[a-zA-Z0-9.?/-]{8,24}\$").matches(pass)) {
             _registerForm.value = RegisterFormState(passwordError = R.string.invalid_input_password)
@@ -174,63 +210,66 @@ class RegisterViewModel
     }
 
 
-    fun isBirthDayValid(birthDay: String): Boolean {
+    fun isBirthDayValid(birthDay: String?): Boolean {
         var isValid = false
-        if (birthDay.isBlank()) {
+        if (birthDay.isNullOrBlank()) {
             _registerForm.value = RegisterFormState(birthDayError = R.string.invalid_not_input)
-        } else if (!Regex("[+-]?\\d+").matches(birthDay)) {
-            _registerForm.value =
-                RegisterFormState(birthDayError = R.string.invalid_birthday_birthMonth)
-        } else if (birthDay.toInt() > 31 || 1 > birthDay.toInt()) {
+        } else if (!birthDay.let { Regex("[+-]?\\d+").matches(it) }) {
             _registerForm.value =
                 RegisterFormState(birthDayError = R.string.invalid_birthday_birthMonth)
         } else {
-            isValid = true
+            if (birthDay.toInt() > 31 || 1 > birthDay.toInt()) {
+                _registerForm.value =
+                    RegisterFormState(birthDayError = R.string.invalid_birthday_birthMonth)
+            } else {
+                isValid = true
+            }
         }
-
         return isValid
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun isBirthYearValid(birthYear: String): Boolean {
+    fun isBirthYearValid(birthYear: String?): Boolean {
         var isValid = false
-        if (birthYear.isBlank()) {
+        if (birthYear.isNullOrBlank()) {
             _registerForm.value = RegisterFormState(birthYearError = R.string.invalid_not_input)
-        } else if (!Regex("[+-]?\\d+").matches(birthYear)) {
-            _registerForm.value =
-                RegisterFormState(birthYearError = R.string.invalid_birthday_birthMonth)
-        } else if (birthYear.toInt() > LocalDate.now().year) {
+        } else if (!birthYear.let { Regex("[+-]?\\d+").matches(it) }) {
             _registerForm.value =
                 RegisterFormState(birthYearError = R.string.invalid_birthday_birthMonth)
         } else {
-            isValid = true
+            if (birthYear.toInt() > LocalDate.now().year) {
+                _registerForm.value =
+                    RegisterFormState(birthYearError = R.string.invalid_birthday_birthMonth)
+            } else {
+                isValid = true
+            }
         }
-
         return isValid
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun isBirthMonthValid(birthMonth: String): Boolean {
+    fun isBirthMonthValid(birthMonth: String?): Boolean {
         var isValid = false
-        if (birthMonth.isBlank()) {
+        if (birthMonth.isNullOrBlank()) {
             _registerForm.value = RegisterFormState(birthMonthError = R.string.invalid_not_input)
-        } else if (
-            !Regex("[+-]?\\d+").matches(birthMonth)
-            || (birthMonth.toInt() > 12 || 1 > birthMonth.toInt())) {
-            _registerForm.value =
-                RegisterFormState(birthMonthError = R.string.invalid_birthday_birthMonth)
         } else {
-            isValid = true
+            if (!birthMonth.let { Regex("[+-]?\\d+").matches(it) } || (birthMonth.toInt() > 12 || 1 > birthMonth.toInt())) {
+                _registerForm.value =
+                    RegisterFormState(birthMonthError = R.string.invalid_birthday_birthMonth)
+            } else {
+                isValid = true
+            }
         }
 
         return isValid
     }
 
-    private fun matchPass(pass: String, oneMorePass: String): Boolean {
+    private fun matchPass(pass: String?, oneMorePass: String?): Boolean {
         var isValid = false
 
         if (pass != oneMorePass) {
-            _registerForm.value = RegisterFormState(matchPassError = R.string.invalid_not_match_pass)
+            _registerForm.value =
+                RegisterFormState(matchPassError = R.string.invalid_not_match_pass)
         } else {
             isValid = true
         }

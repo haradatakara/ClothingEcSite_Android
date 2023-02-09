@@ -50,8 +50,10 @@ class LoginRepository() {
             .get()
             .await()
             .toObject(User::class.java)
-        val url = storageRef.child(user!!.image).downloadUrl.await()
-        user.image = url.toString()
+        if(user?.image?.isNotBlank() == true) {
+            val url = storageRef.child(user.image).downloadUrl.await()
+            user.image = url.toString()
+        }
         return user
     }
 
