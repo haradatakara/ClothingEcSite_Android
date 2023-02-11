@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 class ItemViewModel(private val itemMenuListRepository: ItemMenuListRepository) :
     ViewModel() {
 
-    private val _item = MutableLiveData<Item>()
+    val _item = MutableLiveData<Item>()
     val item: LiveData<Item> = _item
 
     fun fetchItem(docId: String) {

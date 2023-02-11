@@ -5,15 +5,13 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+
 import com.example.clothingecsite_30.R
 
-import com.example.clothingecsite_30.repository.LoginRepository
-import com.example.clothingecsite_30.data.authentication.LoggedInUserView
-import com.example.clothingecsite_30.data.authentication.LoginFormState
+
 import com.example.clothingecsite_30.data.authentication.AuthenticationResult
 import com.example.clothingecsite_30.data.authentication.RegisterFormState
-import com.example.clothingecsite_30.model.authentication.Result
+
 import com.example.clothingecsite_30.model.authentication.register.User
 import com.example.clothingecsite_30.repository.RegisterRepository
 import kotlinx.coroutines.*
@@ -62,18 +60,18 @@ class UpdateViewModel(private val registerRepository: RegisterRepository) : View
                 "birth" to "${birthYear}/${birthMonth}/${birthDay}",
                 "gender" to selectGender!!
             )
-            viewModelScope.launch {
-                when (val result = registerRepository.register(userInfo)) {
-                    is Result.Success -> {
-                        _registerResult.value =
-                            AuthenticationResult(success = LoggedInUserView(displayName = result.data.username))
-                    }
-                    else -> {
-                        _registerResult.value = AuthenticationResult(error = R.string.deplicate_mail)
-                        RegisterFormState(cannotRegisterError = R.string.invalid_can_not_register)
-                    }
-                }
-            }
+//            viewModelScope.launch {
+//                when (val result = registerRepository.register(userInfo)) {
+//                    is Result.Success -> {
+//                        _registerResult.value =
+//                            AuthenticationResult(success = LoggedInUserView(displayName = result.data.username))
+//                    }
+//                    else -> {
+//                        _registerResult.value = AuthenticationResult(error = R.string.deplicate_mail)
+//                        RegisterFormState(cannotRegisterError = R.string.invalid_can_not_register)
+//                    }
+//                }
+//            }
         } else {
             _registerForm.value =
                 RegisterFormState(cannotRegisterError = R.string.invalid_can_not_register)

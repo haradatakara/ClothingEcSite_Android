@@ -1,478 +1,495 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.clothingecsite_30.viewModel.authentication.RegisterViewModel" />
+    </data>
 
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/scrollRegister"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollRegister"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/ic_background"
-        android:paddingLeft="@dimen/fragment_horizontal_margin"
-        android:paddingTop="@dimen/fragment_vertical_margin"
-        android:paddingRight="@dimen/fragment_horizontal_margin"
-        android:paddingBottom="48dp">
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_register_activity"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/tv_title"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:text="@string/register_btn"
-                android:textSize="24dp"
-                android:textStyle="bold" />
-        </androidx.appcompat.widget.Toolbar>
-
-        <TextView
-            android:id="@+id/errorCannotRegister"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
-            android:textColor="@android:color/holo_red_light"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar_register_activity" />
+            android:background="@drawable/ic_background"
+            android:paddingLeft="@dimen/fragment_horizontal_margin"
+            android:paddingTop="@dimen/fragment_vertical_margin"
+            android:paddingRight="@dimen/fragment_horizontal_margin"
+            android:paddingBottom="48dp">
 
-        <TextView
-            android:id="@+id/register_individual_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="基本情報"
-            android:textSize="24dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/errorCannotRegister" />
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_view_name"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/register_title_to_card"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/register_individual_title">
-
-            <LinearLayout
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar_register_activity"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="24sp">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/iv_profile_user_image"
-                    android:layout_width="@dimen/my_profile_user_image_size"
-                    android:layout_height="@dimen/my_profile_user_image_size"
-                    android:layout_gravity="center"
-                    android:contentDescription="@string/image_contentDescription"
-                    android:src="@drawable/ic_user_place_holder" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <RadioGroup
-                        android:id="@+id/RegisterGenderGroup"
-                        android:layout_width="335dp"
-                        android:layout_height="56dp"
-                        android:layout_marginTop="10dp"
-                        android:orientation="horizontal">
-
-                        <RadioButton
-                            android:id="@+id/gender_man"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:text="男性" />
-
-                        <RadioButton
-                            android:id="@+id/gender_woman"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:text="女性" />
-
-                        <RadioButton
-                            android:id="@+id/gender_other"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:text="その他" />
-                    </RadioGroup>
-                </com.google.android.material.textfield.TextInputLayout>
+                android:layout_height="?attr/actionBarSize"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
-                    android:id="@+id/errorGender"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/holo_red_light" />
-
-                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tv_title"
                     android:layout_width="match_parent"
-                    android:layout_height="70dp">
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="@string/register_btn"
+                    android:textSize="24dp"
+                    android:textStyle="bold" />
+            </androidx.appcompat.widget.Toolbar>
 
-                    <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/registerNameView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="username"
-                        android:inputType="textPersonName"
-                        android:textSize="@dimen/register_text_size" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="70dp">
-
-                    <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/registerEmailView"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:hint="email"
-                        android:inputType="textEmailAddress"
-                        android:textSize="@dimen/register_text_size" />
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-
-
-        </androidx.cardview.widget.CardView>
-
-        <TextView
-            android:id="@+id/register_birth_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="誕生日"
-            android:textSize="24dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/card_view_name" />
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_view_birth"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/register_title_to_card"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-
-            app:layout_constraintTop_toBottomOf="@+id/register_birth_title">
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/errorCannotRegister"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:baselineAligned="true"
-                android:orientation="vertical"
-                android:padding="10dp">
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:textColor="@android:color/holo_red_light"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/toolbar_register_activity" />
+
+            <TextView
+                android:id="@+id/register_individual_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="基本情報"
+                android:textSize="24dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/errorCannotRegister" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_view_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/register_title_to_card"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/register_individual_title">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="24sp">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/iv_profile_user_image"
+                        android:layout_width="@dimen/my_profile_user_image_size"
+                        android:layout_height="@dimen/my_profile_user_image_size"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/image_contentDescription"
+                        android:src="@drawable/ic_user_place_holder" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <RadioGroup
+                            android:id="@+id/RegisterGenderGroup"
+                            android:layout_width="335dp"
+                            android:layout_height="56dp"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/gender_man"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:text="男性" />
+
+                            <RadioButton
+                                android:id="@+id/gender_woman"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:text="女性" />
+
+                            <RadioButton
+                                android:id="@+id/gender_other"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:text="その他" />
+                        </RadioGroup>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:id="@+id/errorGender"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/holo_red_light" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/registerNameView"
+                            android:text="@={viewModel.name}"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="username"
+                            android:inputType="textPersonName"
+                            android:textSize="@dimen/register_text_size" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/registerEmailView"
+                            android:text="@={viewModel.email}"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:hint="email"
+                            android:inputType="textEmailAddress"
+                            android:textSize="@dimen/register_text_size" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/register_birth_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="誕生日"
+                android:textSize="24dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/card_view_name" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_view_birth"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/register_title_to_card"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+
+                app:layout_constraintTop_toBottomOf="@+id/register_birth_title">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:baselineAligned="true"
-                    android:orientation="horizontal"
-                    android:paddingTop="10dp">
+                    android:orientation="vertical"
+                    android:padding="10dp">
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="80dp"
-                        android:layout_height="60dp"
-                        app:layout_constraintEnd_toStartOf="@+id/textView"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/registerBirthDayLabel">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:baselineAligned="true"
+                        android:orientation="horizontal"
+                        android:paddingTop="10dp">
 
-                        <androidx.appcompat.widget.AppCompatEditText
-                            android:id="@+id/registerBirthYearView"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:ems="10"
-                            android:hint="year"
-                            android:inputType="date"
-                            android:maxLength="4"
-                            android:minHeight="50dp"
-                            android:textSize="@dimen/register_text_size" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="80dp"
+                            android:layout_height="60dp"
+                            app:layout_constraintEnd_toStartOf="@+id/textView"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/registerBirthDayLabel">
+
+                            <androidx.appcompat.widget.AppCompatEditText
+                                android:id="@+id/registerBirthYearView"
+                                android:text="@={viewModel.birthYear}"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:ems="10"
+                                android:hint="year"
+                                android:inputType="date"
+                                android:maxLength="4"
+                                android:minHeight="50dp"
+                                android:textSize="@dimen/register_text_size" />
+                        </com.google.android.material.textfield.TextInputLayout>
 
 
-                    <TextView
-                        android:id="@+id/yearText"
-                        android:layout_width="20dp"
-                        android:layout_height="30dp"
-                        android:text="年"
-                        android:textSize="18dp" />
+                        <TextView
+                            android:id="@+id/yearText"
+                            android:layout_width="20dp"
+                            android:layout_height="30dp"
+                            android:text="年"
+                            android:textSize="18dp" />
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="80dp"
-                        android:layout_height="60dp"
-                        app:layout_constraintEnd_toStartOf="@+id/textView"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/registerBirthDayLabel">
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="80dp"
+                            android:layout_height="60dp"
+                            app:layout_constraintEnd_toStartOf="@+id/textView"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/registerBirthDayLabel">
 
-                        <androidx.appcompat.widget.AppCompatEditText
-                            android:id="@+id/registerBirthMonthView"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:ems="10"
-                            android:hint="month"
-                            android:inputType="date"
-                            android:maxLength="2"
-                            android:minHeight="50dp"
-                            android:textSize="@dimen/register_text_size" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                            <androidx.appcompat.widget.AppCompatEditText
+                                android:id="@+id/registerBirthMonthView"
+                                android:text="@={viewModel.birthMonth}"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:ems="10"
+                                android:hint="month"
+                                android:inputType="date"
+                                android:maxLength="2"
+                                android:minHeight="50dp"
+                                android:textSize="@dimen/register_text_size" />
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                    <TextView
-                        android:id="@+id/monthText"
-                        android:layout_width="20dp"
-                        android:layout_height="30dp"
-                        android:text="月"
-                        android:textSize="18dp" />
+                        <TextView
+                            android:id="@+id/monthText"
+                            android:layout_width="20dp"
+                            android:layout_height="30dp"
+                            android:text="月"
+                            android:textSize="18dp" />
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="80dp"
-                        android:layout_height="60dp"
-                        app:layout_constraintHorizontal_bias="0.5">
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="80dp"
+                            android:layout_height="60dp"
+                            app:layout_constraintHorizontal_bias="0.5">
 
-                        <androidx.appcompat.widget.AppCompatEditText
-                            android:id="@+id/registerBirthDayView"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:ems="10"
-                            android:hint="day"
-                            android:inputType="date"
-                            android:maxLength="2"
-                            android:minHeight="50dp"
-                            android:textSize="@dimen/register_text_size" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                            <androidx.appcompat.widget.AppCompatEditText
+                                android:id="@+id/registerBirthDayView"
+                                android:text="@={viewModel.birthDay}"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:ems="10"
+                                android:hint="day"
+                                android:inputType="date"
+                                android:maxLength="2"
+                                android:minHeight="50dp"
+                                android:textSize="@dimen/register_text_size" />
+                        </com.google.android.material.textfield.TextInputLayout>
 
-                    <TextView
-                        android:id="@+id/dayText"
-                        android:layout_width="20dp"
-                        android:layout_height="30dp"
-                        android:text="日"
-                        android:textSize="18dp" />
+                        <TextView
+                            android:id="@+id/dayText"
+                            android:layout_width="20dp"
+                            android:layout_height="30dp"
+                            android:text="日"
+                            android:textSize="18dp" />
 
-                </LinearLayout>
-
-                <Button
-                    android:id="@+id/registerBirthDayBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/shape_button_rounded"
-                    android:text="Calendar"
-                    android:textColor="@color/white"
-                    app:icon="@drawable/calendar_24" />
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <TextView
-            android:id="@+id/register_address_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="住所"
-            android:textSize="24dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/card_view_birth" />
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_view_address"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/register_title_to_card"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/register_address_title">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="24sp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:baselineAlignedChildIndex="0"
-                    android:orientation="horizontal"
-                    android:padding="8sp">
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="200dp"
-                        android:layout_height="70dp"
-                        android:layout_marginTop="@dimen/fragment_vertical_margin">
-
-                        <androidx.appcompat.widget.AppCompatEditText
-                            android:id="@+id/registerAddressView"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:hint="郵便番号"
-                            android:inputType="number"
-                            android:maxLength="7"
-                            android:minHeight="50dp"
-                            android:textSize="@dimen/register_text_size" />
-
-                    </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
 
                     <Button
-                        android:id="@+id/address_fetch_btn"
+                        android:id="@+id/registerBirthDayBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/shape_button_rounded"
-                        android:text="検索"
+                        android:text="Calendar"
                         android:textColor="@color/white"
                         app:icon="@drawable/calendar_24" />
                 </LinearLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/register_address_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="住所"
+                android:textSize="24dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/card_view_birth" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_view_address"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/register_title_to_card"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/register_address_title">
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:layout_marginTop="@dimen/fragment_vertical_margin">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="24sp">
 
-                    <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/registerPrefectureCityView"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:hint="県庁所在地から番地まで"
-                        android:minHeight="50dp"
-                        android:textSize="@dimen/register_text_size" />
-                </com.google.android.material.textfield.TextInputLayout>
+                        android:layout_height="wrap_content"
+                        android:baselineAlignedChildIndex="0"
+                        android:orientation="horizontal"
+                        android:padding="8sp">
 
-                <com.google.android.material.textfield.TextInputLayout
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="200dp"
+                            android:layout_height="70dp"
+                            android:layout_marginTop="@dimen/fragment_vertical_margin">
+
+                            <androidx.appcompat.widget.AppCompatEditText
+                                android:id="@+id/registerAddressView"
+                                android:text="@={viewModel.zipcode}"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:hint="郵便番号"
+                                android:inputType="number"
+                                android:maxLength="7"
+                                android:minHeight="50dp"
+                                android:textSize="@dimen/register_text_size" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <Button
+                            android:id="@+id/address_fetch_btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/shape_button_rounded"
+                            android:text="検索"
+                            android:textColor="@color/white"
+                            app:icon="@drawable/calendar_24" />
+                    </LinearLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp"
+                        android:layout_marginTop="@dimen/fragment_vertical_margin">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/registerPrefectureCityView"
+                            android:text="@={viewModel.prefectureCity}"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:hint="県庁所在地から番地まで"
+                            android:minHeight="50dp"
+                            android:textSize="@dimen/register_text_size" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp"
+                        android:layout_marginTop="@dimen/fragment_vertical_margin">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/registerMansionView"
+                            android:text="@={viewModel.mansion}"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:hint="マンションやアパート"
+                            android:minHeight="50dp"
+                            android:textSize="@dimen/register_text_size" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/register_password_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="パスワード"
+                android:textSize="24dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/card_view_address" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_view_password"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/register_title_to_card"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/register_password_title">
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:layout_marginTop="@dimen/fragment_vertical_margin">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/fragment_vertical_margin"
+                    android:baselineAligned="true"
+                    android:orientation="vertical">
 
-                    <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/registerMansionView"
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:hint="マンションやアパート"
-                        android:minHeight="50dp"
-                        android:textSize="@dimen/register_text_size" />
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
+                        android:layout_height="70sp">
 
-        </androidx.cardview.widget.CardView>
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/registerPasswordView"
+                            android:text="@={viewModel.password}"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="password"
+                            android:inputType="textPassword"
+                            android:textSize="@dimen/register_text_size" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:id="@+id/register_password_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="パスワード"
-            android:textSize="24dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/card_view_address" />
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="70sp"
+                        android:layout_marginTop="@dimen/fragment_vertical_margin">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_view_password"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/register_title_to_card"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/register_password_title">
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/registerOneMorePasswordView"
+                            android:text="@={viewModel.oneMorePassword}"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="passwordをもう一回入力"
+                            android:inputType="textPassword"
+                            android:textSize="@dimen/register_text_size" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-            <LinearLayout
+                    <TextView
+                        android:id="@+id/errorMatchPassCheck"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/holo_red_light" />
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <CheckBox
+                android:id="@+id/consentCheck"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="私は会員規約に同意します。"
+                android:checked="@={viewModel.isConsentChecked()}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/card_view_password" />
+
+            <TextView
+                android:id="@+id/errorConsentCheck"
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:textColor="@android:color/holo_red_light"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/consentCheck" />
+
+            <Button
+                android:id="@+id/btn_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/fragment_vertical_margin"
-                android:baselineAligned="true"
-                android:orientation="vertical">
+                android:layout_gravity="center"
+                android:layout_marginTop="16sp"
+                android:background="@drawable/shape_button_rounded"
+                android:foreground="?attr/selectableItemBackground"
+                android:gravity="center"
+                android:text="@string/register_btn"
+                android:textColor="@android:color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/errorConsentCheck" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="70sp">
+            <ProgressBar
+                android:id="@+id/loading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/toolbar_register_activity"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                    <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/registerPasswordView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="password"
-                        android:inputType="textPassword"
-                        android:textSize="@dimen/register_text_size" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="70sp"
-                    android:layout_marginTop="@dimen/fragment_vertical_margin">
-
-                    <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/registerOneMorePasswordView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="passwordをもう一回入力"
-                        android:inputType="textPassword"
-                        android:textSize="@dimen/register_text_size" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <TextView
-                    android:id="@+id/errorMatchPassCheck"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/holo_red_light" />
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <CheckBox
-            android:id="@+id/consentCheck"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="私は会員規約に同意します。"
-            android:layout_marginTop="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/card_view_password" />
-
-        <TextView
-            android:id="@+id/errorConsentCheck"
-            android:layout_width="2dp"
-            android:layout_height="20dp"
-            android:textColor="@android:color/holo_red_light"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/consentCheck" />
-
-        <Button
-            android:id="@+id/btn_register"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="16sp"
-            android:background="@drawable/shape_button_rounded"
-            android:foreground="?attr/selectableItemBackground"
-            android:gravity="center"
-            android:text="@string/register_btn"
-            android:textColor="@android:color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/errorConsentCheck" />
-
-        <ProgressBar
-            android:id="@+id/loading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@+id/toolbar_register_activity"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.core.widget.NestedScrollView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</layout>

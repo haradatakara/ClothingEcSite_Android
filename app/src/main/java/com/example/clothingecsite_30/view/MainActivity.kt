@@ -40,10 +40,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
         loginViewModel.loginUser.observe(this) {
-
-            Glide.with(this)
-                .load(it.image)
-                .into(findViewById<CircleImageView>(R.id.iv_user_image))
+            if(it != null) {
+                Glide.with(this)
+                    .load(it.image)
+                    .into(findViewById<CircleImageView>(R.id.iv_user_image))
+            }
         }
 
         binding = ActivityMainBinding.inflate(layoutInflater).apply { setContentView(this.root) }

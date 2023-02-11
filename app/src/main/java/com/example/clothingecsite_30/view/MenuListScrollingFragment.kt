@@ -70,6 +70,9 @@ class MenuListScrollingFragment : Fragment() {
         val layoutManager = LinearLayoutManager(context)
         recyclerView.layoutManager = layoutManager
 
+        /**
+         * メニューリスト表示
+         */
         itemMenuListViewModel.itemList.observe(viewLifecycleOwner) { items ->
             progressBar.visibility = View.GONE
             val adapter = ItemMenuListAdapter(context, items)
@@ -81,6 +84,9 @@ class MenuListScrollingFragment : Fragment() {
             })
         }
 
+        /**
+         *
+         */
         itemViewModel.item.observe(viewLifecycleOwner) {
             if (it == null) {
                 return@observe
@@ -88,15 +94,6 @@ class MenuListScrollingFragment : Fragment() {
                 findNavController().navigate(R.id.action_MenuDetailFragment_to_MenuListFragment)
             }
         }
-    }
-
-    private fun Item.toMap(): MutableMap<String, *> {
-        return mutableMapOf(
-            "itemId" to this.itemId,
-            "name" to this.name,
-            "price" to "¥${"%,d".format(this.price)}",
-            "imgPath" to resources.getIdentifier(this.imgPath, "drawable", activity?.packageName),
-        )
     }
 
 }
