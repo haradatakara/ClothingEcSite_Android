@@ -10,20 +10,19 @@ import androidx.navigation.fragment.findNavController
 import com.example.clothingecsite_30.R
 import com.example.clothingecsite_30.databinding.FragmentMenuDetailBinding
 import com.example.clothingecsite_30.model.Cart
-import com.example.clothingecsite_30.util.CartListAdapter
 import com.example.clothingecsite_30.view.dialog.CartListDialogFragment
 import com.example.clothingecsite_30.viewModel.cart.CartListViewModel
 import com.example.clothingecsite_30.viewModel.cart.CartListViewModelFactory
 import com.example.clothingecsite_30.viewModel.item.ItemModelFactory
 import com.example.clothingecsite_30.viewModel.item.ItemViewModel
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 
+/**
+ * 商品詳細ページのフラグメント
+ */
 class MenuDetailFragment : Fragment() {
-
 
     private lateinit var itemViewModel: ItemViewModel
     private lateinit var cartListViewModel: CartListViewModel
@@ -44,11 +43,7 @@ class MenuDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         itemViewModel =
             ViewModelProvider(requireActivity(), ItemModelFactory())[ItemViewModel::class.java]
-        cartListViewModel =
-            ViewModelProvider(
-                requireActivity(),
-                CartListViewModelFactory()
-            )[CartListViewModel::class.java]
+        cartListViewModel = ViewModelProvider(requireActivity(), CartListViewModelFactory())[CartListViewModel::class.java]
 
         val itemPath = binding.detailImage
         val itemName = binding.detailName
@@ -60,18 +55,22 @@ class MenuDetailFragment : Fragment() {
 
         itemName.text = itemDetail?.name
         itemPrice.text = "¥${" %, d".format(itemDetail?.price)}"
-        itemPath.setImageResource(
+        binding.detailImage.setImageResource(
             resources.getIdentifier(itemDetail?.imgPath, "drawable", activity?.packageName)
         )
+
+        //購入ボタン押下
         purchaseBtn.setOnClickListener {
             findNavController().navigate(R.id.action_PurchaseRegisterIndividualFragment_to_MenuListFragment)
         }
 
+        //戻るボタン押下
         returnBtn.setOnClickListener {
-            itemViewModel._item.value = null
+            itemViewModel.deleteItem()
             findNavController().navigate(R.id.action_MenuListFragment_to_MenuDetailFragment)
         }
 
+        //カート追加ボタン押下
         addCartBtn.setOnClickListener {
             cartListViewModel.cartItem.value = Cart(
                 itemDetail!!.itemId.toLong(),
@@ -81,9 +80,7 @@ class MenuDetailFragment : Fragment() {
                 DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")
                     .format(LocalDateTime.now()),
             )
-
             cartListViewModel.onClickAddCartBtn()
-
             val dialog = CartListDialogFragment()
             dialog.show(this.childFragmentManager, dialog.tag)
         }

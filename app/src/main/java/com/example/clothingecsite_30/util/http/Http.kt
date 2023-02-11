@@ -2,6 +2,9 @@ package com.example.clothingecsite_30.util.http
 import okhttp3.OkHttpClient
 import okhttp3.Request
 
+/**
+ * http通信時に使用するクラス
+ */
 class Http {
     fun httpGet(url: String): String? {
         val request = Request.Builder()

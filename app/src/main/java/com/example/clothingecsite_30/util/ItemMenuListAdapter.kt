@@ -11,11 +11,9 @@ import com.example.clothingecsite_30.R
 import com.example.clothingecsite_30.model.Item
 import com.google.android.material.imageview.ShapeableImageView
 
-// interfaceの実装
-//interface CartAdapterListener {
-//    fun clicked(cart: Cart?)
-//}
-
+/**
+ * メニューリストアダプタ
+ */
 class ItemMenuListAdapter(
     private val context: Context?,
     private val itemList: List<Item>

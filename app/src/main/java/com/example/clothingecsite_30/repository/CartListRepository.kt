@@ -15,11 +15,15 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.ArrayList
 
+/**
+ * カート情報を扱うレポジトリクラス
+ */
 class CartListRepository {
 
     private val fireDb = Firebase.firestore
     private var insertDataBase = false
 
+    // カートに追加
     @RequiresApi(Build.VERSION_CODES.O)
     suspend fun onClickAddCartBtn(
         cartItem: MutableLiveData<Cart>,
@@ -54,6 +58,7 @@ class CartListRepository {
         return insertDataBase
     }
 
+    //カートから削除
     suspend fun onClickDeleteItem(cart: Cart?): Boolean {
         withContext(Dispatchers.IO) {
             val cartItemRef =
@@ -75,6 +80,7 @@ class CartListRepository {
     }
 
 
+    // カート情報取得
     suspend fun fetchCartItems(): ArrayList<MutableMap<String, *>> {
         return withContext(Dispatchers.IO) {
             var arrayItems: ArrayList<MutableMap<String, *>> = ArrayList()
@@ -88,6 +94,7 @@ class CartListRepository {
         }
     }
 
+    //カートに入っている商品の詳細を取得
     suspend fun fetchItemInfo(arrayItems: ArrayList<MutableMap<String, *>>): MutableList<Cart> {
         println(arrayItems)
         return withContext(Dispatchers.IO) {

@@ -10,6 +10,9 @@ import com.google.firebase.auth.ktx.auth
 import com.example.clothingecsite_30.databinding.ActivitySplashBinding
 import com.google.firebase.ktx.Firebase
 
+/**
+ * 起動時に表示されるスプラッシュ画面
+ */
 class SplashActivity : AppCompatActivity() {
     private val fireAuth = Firebase.auth
     private lateinit var binding: ActivitySplashBinding

@@ -1,8 +1,7 @@
 package com.example.clothingecsite_30.model.authentication
 
 /**
- * A generic class that holds a value with its loading status.
- * @param <T>
+ * 認証結果に関してまとめるモデルクラス
  */
 sealed class Result<out T : Any> {
 

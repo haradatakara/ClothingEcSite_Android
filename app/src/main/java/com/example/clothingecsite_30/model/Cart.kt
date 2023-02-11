@@ -1,5 +1,8 @@
 package com.example.clothingecsite_30.model
 
+/**
+ * カート情報に関してまとめるモデルクラス
+ */
 class Cart(
     itemId: Long,
     name: String,

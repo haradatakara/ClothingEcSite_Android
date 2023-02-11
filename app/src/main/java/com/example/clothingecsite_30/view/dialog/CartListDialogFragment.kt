@@ -20,6 +20,9 @@ import com.example.clothingecsite_30.view.PurchaseConfirmActivity
 import com.example.clothingecsite_30.viewModel.cart.CartListViewModel
 import com.example.clothingecsite_30.viewModel.cart.CartListViewModelFactory
 
+/**
+ * カートダイアログ
+ */
 class CartListDialogFragment : BottomSheetDialogFragment(), CartAdapterListener {
 
     private lateinit var lvMenu: ListView
@@ -28,7 +31,6 @@ class CartListDialogFragment : BottomSheetDialogFragment(), CartAdapterListener 
     private lateinit var cartItemAdapter: CartListAdapter
 
     private var _binding: FragmentCartListDialogBinding? = null
-
     private val binding get() = _binding!!
 
 
@@ -56,9 +58,9 @@ class CartListDialogFragment : BottomSheetDialogFragment(), CartAdapterListener 
         val loadingProgressBar = binding.loading
 
         cartItemTask()
-
         LinearLayoutManager(context)
 
+        //  アイテム削除後の動き
         cartListViewModel.canCartListOpen.observe(viewLifecycleOwner) {
             loadingProgressBar.visibility = View.GONE
             if (it == true) {
@@ -70,6 +72,7 @@ class CartListDialogFragment : BottomSheetDialogFragment(), CartAdapterListener 
             }
         }
 
+        // 購入ボタン押下
         binding.purchaseBtn.setOnClickListener {
             startActivity(Intent(this.requireContext(), PurchaseConfirmActivity::class.java))
         }
@@ -95,6 +98,9 @@ class CartListDialogFragment : BottomSheetDialogFragment(), CartAdapterListener 
         _binding = null
     }
 
+    /**
+     * アイテム削除ボタン押下
+     */
     override fun clicked(cart: Cart?) {
         binding.loading.visibility = View.VISIBLE
         cartListViewModel.onClickDeleteBtn(cart)

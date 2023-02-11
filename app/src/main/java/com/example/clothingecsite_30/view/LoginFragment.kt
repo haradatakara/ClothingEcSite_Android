@@ -6,26 +6,26 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import android.os.Bundle
-import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.EditText
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import com.example.clothingecsite_30.data.authentication.LoggedInUserView
-import com.example.clothingecsite_30.util.textWatcher.CustomTextWatcher
-import com.example.clothingecsite_30.util.textWatcher.CustomTextWatcherListener
 import com.example.clothingecsite_30.R
 import com.example.clothingecsite_30.databinding.FragmentLoginBinding
 import com.example.clothingecsite_30.viewModel.authentication.LoginViewModel
 import com.example.clothingecsite_30.viewModel.authentication.LoginViewModelFactory
 
-class LoginFragment : Fragment(), CustomTextWatcherListener {
+/**
+ * ログイン画面のフラグメント
+ */
+class LoginFragment : Fragment() {
 
     private lateinit var loginViewModel: LoginViewModel
-    private var _binding: FragmentLoginBinding? = null
 
+    private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -40,25 +40,32 @@ class LoginFragment : Fragment(), CustomTextWatcherListener {
         loginViewModel =
             ViewModelProvider(this, LoginViewModelFactory())[LoginViewModel::class.java]
 
-        val usernameEditText = binding.username
-        val passwordEditText = binding.password
-        val loginButton = binding.loginBtn
+        binding.viewModel = loginViewModel
+
         val loadingProgressBar = binding.loading
 
-        enterTextChangedListener(usernameEditText, passwordEditText)
+        //入力バリデーションチェック
+        loginViewModel.email.observe(viewLifecycleOwner) {
+            loginViewModel.isEmailValid(it)
+        }
+        loginViewModel.password.observe (viewLifecycleOwner) {
+            loginViewModel.isPasswordValid(it.toString())
+        }
 
+        // 入力時のバリデーションエラーメッセージ出力
         loginViewModel.loginFormState.observe(viewLifecycleOwner, Observer { loginFormState ->
             if (loginFormState == null) {
                 return@Observer
             }
-            loginFormState.usernameError?.let {
-                usernameEditText.error = getString(it)
+            loginFormState.emailError?.let {
+                binding.username.error = getString(it)
             }
             loginFormState.passwordError?.let {
-                passwordEditText.error = getString(it)
+                binding.password.error = getString(it)
             }
         })
 
+        // ログインボタン押下後の結果
         loginViewModel.loginResult.observe(viewLifecycleOwner, Observer { loginResult ->
             loginResult ?: return@Observer
             loadingProgressBar.visibility = View.GONE
@@ -71,42 +78,22 @@ class LoginFragment : Fragment(), CustomTextWatcherListener {
             }
         })
 
-        //Enterキーを押した時の処理
-        passwordEditText.setOnEditorActionListener { _, actionId, _ ->
+        // Enterキーを押した時の処理
+        binding.password.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                loginViewModel.login(
-                    usernameEditText.text.toString(), passwordEditText.text.toString()
-                )
+                loginViewModel.login()
             }
             false
         }
 
         // ログインボタン押下時の処理
-        loginButton.setOnClickListener {
+        binding.loginBtn.setOnClickListener {
             loadingProgressBar.visibility = View.VISIBLE
-            loginViewModel.login(usernameEditText.text.toString(), passwordEditText.text.toString())
+            loginViewModel.login()
         }
-    }
 
-    private fun enterTextChangedListener(
-        emailEditText: EditText,
-        passwordEditText: EditText,
-    ) {
-        passwordEditText.apply {
-            addTextChangedListener(
-                CustomTextWatcher(
-                    this,
-                    this@LoginFragment
-                )
-            )
-        }
-        emailEditText.apply {
-            addTextChangedListener(
-                CustomTextWatcher(
-                    this,
-                    this@LoginFragment
-                )
-            )
+        binding.gotoRegister.setOnClickListener {
+            findNavController().navigate(R.id.action_LoginFragment_to_RegisterFragment)
         }
     }
 
@@ -129,18 +116,4 @@ class LoginFragment : Fragment(), CustomTextWatcherListener {
         _binding = null
     }
 
-    override fun afterTextChanged(view: View, p0: Editable?) {
-        val inputStr: String = p0.toString()
-        when (view.id) {
-            R.id.username -> {
-                loginViewModel.isUserNameValid(inputStr)
-            }
-            R.id.password -> {
-                loginViewModel.isPasswordValid(inputStr)
-            }
-
-        }
-    }
-    override fun beforeTextChanged(view: View, p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-    override fun onTextChanged(view: View, p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
 }

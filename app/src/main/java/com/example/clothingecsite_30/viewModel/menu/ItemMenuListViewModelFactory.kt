@@ -1,4 +1,4 @@
-package com.example.clothingecsite_30.viewModel.purchaseComfirm
+package com.example.clothingecsite_30.viewModel.menu
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

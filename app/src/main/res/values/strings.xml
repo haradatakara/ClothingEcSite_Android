@@ -39,7 +39,7 @@
 
     <string name="invalid_not_select_gender">性別を選択して下さい。</string>
 
-    <string name="invalid_input_password">入力が正しくありません。少なくとも一文字以上は、英語の大文字と記号を含めて下さい。</string>
+    <string name="invalid_input_password">入力が正しくありません。8~24文字以内で大文字と記号(. 、/、?、-)を含めて下さい。</string>
     <string name="invalid_email_input">大文字の英語をパスワードに含めて下さい。</string>
     <string name="invalid_not_match_pass">入力されたパスワードが一致しません。</string>
     <string name="invalid_not_check_consent">会員規約に同意して下さい。</string>

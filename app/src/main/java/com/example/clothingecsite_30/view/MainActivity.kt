@@ -7,6 +7,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import android.view.MenuItem
+import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.ViewModelProvider
@@ -19,8 +20,9 @@ import com.example.clothingecsite_30.viewModel.authentication.LoginViewModelFact
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import de.hdodenhof.circleimageview.CircleImageView
-
-
+/**
+ * メニューリストフラグメントや商品詳細フラグメントを表示するアクティビティ
+ */
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -32,6 +34,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         loginViewModel =
             ViewModelProvider(this, LoginViewModelFactory())[LoginViewModel::class.java]
+        binding = ActivityMainBinding.inflate(layoutInflater).apply { setContentView(this.root) }
+        binding.navView.setNavigationItemSelectedListener(this)
 
         //すでにログイン済みだが、ユーザー情報を取得していない場合
         //ユーザー情報を取得する
@@ -39,19 +43,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             loginViewModel.fetchLoginUser()
         }
 
+        //ユーザー情報取得後、プロフィール写真がある場合、Glideによって表示する
         loginViewModel.loginUser.observe(this) {
             if(it != null) {
                 Glide.with(this)
                     .load(it.image)
                     .into(findViewById<CircleImageView>(R.id.iv_user_image))
+                findViewById<TextView>(R.id.tv_username).text = it.name
             }
         }
 
-        binding = ActivityMainBinding.inflate(layoutInflater).apply { setContentView(this.root) }
-
         setupActionBar()
-
-        binding.navView.setNavigationItemSelectedListener(this)
 
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
@@ -62,6 +64,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
+    /**
+     * アクションバーの設定
+     */
     private fun setupActionBar() {
         val appBar = findViewById<Toolbar>(R.id.toolbar_main_activity)
         setSupportActionBar(appBar)
@@ -71,7 +76,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-    //ナビゲーションの動き
+    /**
+     * ナビゲーションの動き
+     */
     private fun toggleDrawer() {
         if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
             binding.drawerLayout.closeDrawer(GravityCompat.START)
@@ -80,12 +87,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
+    /**
+     * ナビゲーションに関する設定
+     */
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
     }
 
+    /**
+     * ナビゲーションのメニュー押下時
+     */
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
         when (menuItem.itemId) {
 //            R.id.nav_my_profile -> {
@@ -107,3 +120,4 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
 }
+

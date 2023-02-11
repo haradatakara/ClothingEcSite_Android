@@ -1,7 +1,7 @@
 package com.example.clothingecsite_30.data.authentication
 
 /**
- * Authentication result : success (user details) or error message.
+ *　認証に関する結果を扱うデータクラス
  */
 data class AuthenticationResult(
     val success: LoggedInUserView? = null,

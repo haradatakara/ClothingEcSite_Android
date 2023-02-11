@@ -11,6 +11,9 @@ import com.example.clothingecsite_30.model.authentication.Result
 import com.example.clothingecsite_30.model.authentication.register.RegisterUser
 import com.google.firebase.storage.ktx.storage
 
+/**
+ * 会員登録を扱うレポジトリクラス
+ */
 class RegisterRepository {
 
     private val fireAuth = Firebase.auth
@@ -25,6 +28,7 @@ class RegisterRepository {
         user = null
     }
 
+    // ユーザー作成
     suspend fun register(userInfo: RegisterUser): Result<LoggedInUser> {
         return try {
             fireAuth
@@ -47,6 +51,7 @@ class RegisterRepository {
         }
     }
 
+    //プロフィール情報を保存
     private suspend fun registerImage(imgUri: String, uid: String) {
         //画像登録
         storageRef
@@ -55,6 +60,7 @@ class RegisterRepository {
             .await()
     }
 
+    // ユーザー詳細保存
     private suspend fun registerDetail(
         userInfo: RegisterUser
     ) {

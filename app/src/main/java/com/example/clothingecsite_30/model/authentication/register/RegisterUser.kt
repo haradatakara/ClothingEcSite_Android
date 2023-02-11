@@ -2,7 +2,7 @@ package com.example.clothingecsite_30.model.authentication.register
 
 
 /**
- * 登録するユーザー情報を管理するdataクラスです
+ * 登録するユーザー情報を管理するモデルクラス
  */
 data class RegisterUser(
     var image: String?,

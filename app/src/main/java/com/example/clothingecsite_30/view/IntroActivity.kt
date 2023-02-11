@@ -7,6 +7,9 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import com.example.clothingecsite_30.R
 
+/**
+ * トップ画面、会員登録画面、ログイン画面フラグメントを表示するアクティビティ
+ */
 class IntroActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration

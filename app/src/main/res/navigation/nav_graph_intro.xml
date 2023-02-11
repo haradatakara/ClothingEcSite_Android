@@ -32,6 +32,11 @@
             app:enterAnim="@anim/slide_from_right"
             app:exitAnim="@anim/slide_to_left"
             app:destination="@id/MenuListFragment" />
+        <action
+            android:id="@+id/action_LoginFragment_to_RegisterFragment"
+            app:enterAnim="@anim/slide_from_bottom"
+            app:exitAnim="@anim/slide_to_top"
+            app:destination="@id/RegisterFragment" />
     </fragment>
 
     <fragment

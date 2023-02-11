@@ -1,9 +1,8 @@
 package com.example.clothingecsite_30.data.authentication
 
 /**
- * User details post authentication that is exposed to the UI
+ * ログイン後に表示するデータクラス
  */
 data class LoggedInUserView(
     val displayName: String
-    //... other data fields that may be accessible to the UI
 )
