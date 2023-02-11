@@ -133,7 +133,7 @@
                             android:text="@={viewModel.name}"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="username"
+                            android:hint="username*"
                             android:inputType="textPersonName"
                             android:textSize="@dimen/register_text_size" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -147,7 +147,7 @@
                             android:text="@={viewModel.email}"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:hint="email"
+                            android:hint="email*"
                             android:inputType="textEmailAddress"
                             android:textSize="@dimen/register_text_size" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -205,7 +205,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:ems="10"
-                                android:hint="year"
+                                android:hint="year*"
                                 android:inputType="date"
                                 android:maxLength="4"
                                 android:minHeight="50dp"
@@ -234,7 +234,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:ems="10"
-                                android:hint="month"
+                                android:hint="month*"
                                 android:inputType="date"
                                 android:maxLength="2"
                                 android:minHeight="50dp"
@@ -259,7 +259,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:ems="10"
-                                android:hint="day"
+                                android:hint="day*"
                                 android:inputType="date"
                                 android:maxLength="2"
                                 android:minHeight="50dp"
@@ -330,7 +330,7 @@
                                 android:text="@={viewModel.zipcode}"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:hint="郵便番号"
+                                android:hint="郵便番号*"
                                 android:inputType="number"
                                 android:maxLength="7"
                                 android:minHeight="50dp"
@@ -358,7 +358,7 @@
                             android:text="@={viewModel.prefectureCity}"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:hint="県庁所在地から番地まで"
+                            android:hint="県庁所在地から番地まで*"
                             android:minHeight="50dp"
                             android:textSize="@dimen/register_text_size" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -410,6 +410,7 @@
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
+                        app:passwordToggleEnabled="true"
                         android:layout_height="70sp">
 
                         <androidx.appcompat.widget.AppCompatEditText
@@ -417,7 +418,7 @@
                             android:text="@={viewModel.password}"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="password"
+                            android:hint="password*"
                             android:inputType="textPassword"
                             android:textSize="@dimen/register_text_size" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -432,7 +433,7 @@
                             android:text="@={viewModel.oneMorePassword}"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="passwordをもう一回入力"
+                            android:hint="passwordをもう一回入力*"
                             android:inputType="textPassword"
                             android:textSize="@dimen/register_text_size" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -485,7 +486,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@+id/toolbar_register_activity"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

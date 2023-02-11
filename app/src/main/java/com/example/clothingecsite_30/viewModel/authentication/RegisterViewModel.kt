@@ -79,8 +79,6 @@ class RegisterViewModel
 
         if (!isPasswordValid(password.value)) isValid = false
 
-        if (!isPasswordValid(oneMorePassword.value)) isValid = false
-
         if (!matchPass(password.value, oneMorePassword.value)) isValid = false
 
         if (!isConsentCheckValid(isConsentChecked.value)) isValid = false
@@ -153,7 +151,6 @@ class RegisterViewModel
         } else {
             isValid = true
         }
-
         return isValid
     }
 

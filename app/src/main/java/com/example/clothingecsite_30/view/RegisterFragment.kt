@@ -77,7 +77,6 @@ class RegisterFragment : Fragment() {
         val birthMonthEditText = binding.registerBirthMonthView
         val birthYearEditText = binding.registerBirthYearView
         val passwordEditText = binding.registerPasswordView
-        val oneMorePasswordEditText = binding.registerOneMorePasswordView
         val genderSelectBox = binding.RegisterGenderGroup
         val registerBtn = binding.btnRegister
 
@@ -110,7 +109,6 @@ class RegisterFragment : Fragment() {
             }
         }
 
-
         registerViewModel.registerFormState.observe(viewLifecycleOwner,
             Observer { registerFormState ->
                 if (registerFormState == null) {
@@ -121,9 +119,6 @@ class RegisterFragment : Fragment() {
                 }
                 registerFormState.passwordError?.let {
                     passwordEditText.error = getString(it)
-                }
-                registerFormState.oneMorePasswordError?.let {
-                    oneMorePasswordEditText.error = getString(it)
                 }
                 registerFormState.birthDayError?.let {
                     birthDayEditText.error = getString(it)

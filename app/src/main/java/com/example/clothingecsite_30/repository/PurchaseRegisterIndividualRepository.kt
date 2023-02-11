@@ -7,9 +7,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 
-/**
- *
- */
 class PurchaseRegisterIndividualRepository {
 
     suspend fun fetchAddress(zipCode: Int): Address? {

@@ -55,7 +55,7 @@ class MenuDetailFragment : Fragment() {
 
         itemName.text = itemDetail?.name
         itemPrice.text = "¥${" %, d".format(itemDetail?.price)}"
-        itemPath.setImageResource(
+        binding.detailImage.setImageResource(
             resources.getIdentifier(itemDetail?.imgPath, "drawable", activity?.packageName)
         )
 
@@ -66,7 +66,7 @@ class MenuDetailFragment : Fragment() {
 
         //戻るボタン押下
         returnBtn.setOnClickListener {
-            itemViewModel._item.value = null
+            itemViewModel.deleteItem()
             findNavController().navigate(R.id.action_MenuListFragment_to_MenuDetailFragment)
         }
 

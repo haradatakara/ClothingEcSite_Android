@@ -10,6 +10,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import com.example.clothingecsite_30.model.authentication.Result
+import com.example.clothingecsite_30.model.authentication.login.LoginUser
 import com.google.firebase.storage.ktx.storage
 
 /**
@@ -55,15 +56,15 @@ class LoginRepository() {
         return user
     }
 
-    suspend fun login(username: String, password: String): Result<LoggedInUser>? {
+    suspend fun login(loginUser: LoginUser): Result<LoggedInUser>? {
         var authenticatedUser: Result<LoggedInUser>? = null
         try {
-            fireAuth.signInWithEmailAndPassword(username, password).await()
+            fireAuth.signInWithEmailAndPassword(loginUser.email, loginUser.password).await()
             val user = fireAuth.currentUser
             if (user != null) {
                 val uid: String = user.uid
-                setLoggedInUser(LoggedInUser(uid, username, password))
-                authenticatedUser = Result.Success(LoggedInUser(uid, username, password))
+                setLoggedInUser(LoggedInUser(uid, loginUser.email, loginUser.password))
+                authenticatedUser = Result.Success(LoggedInUser(uid, loginUser.email, loginUser.password))
             }
         } catch (e: java.lang.Exception) {
             authenticatedUser = Result.Error(e)

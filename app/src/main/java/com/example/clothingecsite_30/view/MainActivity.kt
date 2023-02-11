@@ -7,6 +7,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import android.view.MenuItem
+import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.ViewModelProvider
@@ -48,6 +49,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 Glide.with(this)
                     .load(it.image)
                     .into(findViewById<CircleImageView>(R.id.iv_user_image))
+                findViewById<TextView>(R.id.tv_username).text = it.name
             }
         }
 
