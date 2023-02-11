@@ -12,7 +12,9 @@ import kotlinx.coroutines.withContext
 import com.example.clothingecsite_30.model.authentication.Result
 import com.google.firebase.storage.ktx.storage
 
-
+/**
+ * ログイン情報を扱うレポジトリクラス
+ */
 class LoginRepository() {
 
     private val fireAuth = Firebase.auth
@@ -20,13 +22,8 @@ class LoginRepository() {
     private val fireStorage = Firebase.storage
     private val storageRef = fireStorage.reference.child("images/user-images/")
 
-
-    // in-memory cache of the loggedInUser object
     var user: LoggedInUser? = null
         private set
-
-    val isLogout: Boolean
-        get() = user != null
 
     init {
         user = null
@@ -41,6 +38,7 @@ class LoginRepository() {
         }
     }
 
+    // ログインユーザー情報取得
     suspend fun fetchLoginUser(): User? {
         val uid = fireAuth.uid
 

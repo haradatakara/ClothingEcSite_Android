@@ -1,4 +1,4 @@
-package com.example.clothingecsite_30.viewModel.menu
+package com.example.clothingecsite_30.viewModel.purchaseComfirm
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -13,6 +13,9 @@ import com.example.clothingecsite_30.enum.DeliveryMethod
 import com.example.clothingecsite_30.repository.PurchaseRegisterIndividualRepository
 import kotlinx.coroutines.launch
 
+/**
+ * 購入登録情報に関するViewModel
+ */
 class PurchaseRegisterViewModel(private val purchaseRegisterViewModel: PurchaseRegisterIndividualRepository) :
     ViewModel() {
 

@@ -7,6 +7,9 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import com.example.clothingecsite_30.R
 
+/**
+ * 購入登録ページ
+ */
 class PurchaseConfirmActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration

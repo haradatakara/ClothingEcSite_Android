@@ -8,6 +8,9 @@ import com.example.clothingecsite_30.model.Item
 import com.example.clothingecsite_30.repository.ItemMenuListRepository
 import kotlinx.coroutines.launch
 
+/**
+ * 押下された商品情報に関するViewModel
+ */
 class ItemViewModel(private val itemMenuListRepository: ItemMenuListRepository) :
     ViewModel() {
 

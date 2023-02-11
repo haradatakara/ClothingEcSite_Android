@@ -1,4 +1,4 @@
-package com.example.clothingecsite_30.viewModel.purchaseComfirm
+package com.example.clothingecsite_30.viewModel.menu
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,6 +8,9 @@ import com.example.clothingecsite_30.model.Item
 import com.example.clothingecsite_30.repository.ItemMenuListRepository
 import kotlinx.coroutines.launch
 
+/**
+ * 商品リストに関するViewModel
+ */
 class ItemMenuListViewModel(private val itemMenuListRepository: ItemMenuListRepository) :
     ViewModel() {
 

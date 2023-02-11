@@ -3,10 +3,8 @@ package com.example.clothingecsite_30.view
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
-import android.os.ParcelFileDescriptor
 import android.util.AttributeSet
 import android.view.View
-import android.widget.TextView
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -14,13 +12,14 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.clothingecsite_30.databinding.ActivityMyProfileBinding
 import com.example.clothingecsite_30.viewModel.authentication.LoginViewModel
 import com.example.clothingecsite_30.viewModel.authentication.LoginViewModelFactory
-import com.example.clothingecsite_30.viewModel.authentication.RegisterViewModel
-import com.example.clothingecsite_30.viewModel.authentication.RegisterViewModelFactory
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import java.io.IOException
 
+/**
+ * プロフィール更新ページ
+ */
 class MyProfileActivity : AppCompatActivity() {
 
     private var _binding: ActivityMyProfileBinding? = null
@@ -45,6 +44,7 @@ class MyProfileActivity : AppCompatActivity() {
         loginViewModel.loginUser.observe(this) {
             println(it)
         }
+        //イメージボタン押下
         binding.ivProfileUserImage.setOnClickListener {
             resultLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }

@@ -5,7 +5,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,8 +17,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.clothingecsite_30.data.authentication.LoggedInUserView
-import com.example.clothingecsite_30.util.textWatcher.CustomTextWatcher
-import com.example.clothingecsite_30.util.textWatcher.CustomTextWatcherListener
 import com.example.clothingecsite_30.viewModel.authentication.RegisterViewModel
 import com.example.clothingecsite_30.R
 import com.example.clothingecsite_30.databinding.FragmentRegisterBinding
@@ -30,8 +27,7 @@ import com.example.clothingecsite_30.viewModel.authentication.RegisterViewModelF
 import java.util.*
 
 /**
- * 会員登録画面
- *
+ * 会員登録画面のフラグメント
  */
 class RegisterFragment : Fragment() {
 

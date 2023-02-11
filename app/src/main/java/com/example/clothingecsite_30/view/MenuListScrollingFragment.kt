@@ -17,10 +17,12 @@ import com.example.clothingecsite_30.util.ItemMenuListAdapter
 import com.example.clothingecsite_30.viewModel.authentication.LoginViewModel
 import com.example.clothingecsite_30.viewModel.item.ItemModelFactory
 import com.example.clothingecsite_30.viewModel.item.ItemViewModel
-import com.example.clothingecsite_30.viewModel.purchaseComfirm.ItemMenuListViewModel
-import com.example.clothingecsite_30.viewModel.purchaseComfirm.ItemMenuListViewModelFactory
+import com.example.clothingecsite_30.viewModel.menu.ItemMenuListViewModel
+import com.example.clothingecsite_30.viewModel.menu.ItemMenuListViewModelFactory
 
-
+/**
+ * メニューリストのフラグメント
+ */
 class MenuListScrollingFragment : Fragment() {
 
     private lateinit var loginViewModel: LoginViewModel
@@ -32,7 +34,7 @@ class MenuListScrollingFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentMenuListScrollingBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -55,6 +57,7 @@ class MenuListScrollingFragment : Fragment() {
         progressBar.visibility = View.VISIBLE
         itemMenuListViewModel.fetchItemList()
 
+        //ログアウトボタン押下時
         loginViewModel.isLogout.observe(viewLifecycleOwner) {
             if (it == null) {
                 return@observe
@@ -85,7 +88,7 @@ class MenuListScrollingFragment : Fragment() {
         }
 
         /**
-         *
+         * 商品詳細ページの移動できるか
          */
         itemViewModel.item.observe(viewLifecycleOwner) {
             if (it == null) {

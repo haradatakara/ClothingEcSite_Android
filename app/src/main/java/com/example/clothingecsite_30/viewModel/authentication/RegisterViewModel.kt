@@ -18,7 +18,9 @@ import com.example.clothingecsite_30.repository.RegisterRepository
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 
-
+/**
+ * 会員登録に関するViewModel
+ */
 class RegisterViewModel
     (private val registerRepository: RegisterRepository) : ViewModel() {
 
@@ -27,9 +29,6 @@ class RegisterViewModel
 
     private val _registerResult = MutableLiveData<AuthenticationResult>()
     val registerResult: LiveData<AuthenticationResult> = _registerResult
-
-    val registerUser = MutableLiveData<RegisterUser>()
-
 
     val name = MutableLiveData<String>()
 
@@ -57,6 +56,7 @@ class RegisterViewModel
 
     val isConsentChecked = MutableLiveData<Boolean>()
 
+    //会員登録
     @RequiresApi(Build.VERSION_CODES.O)
     fun register(
 
@@ -121,6 +121,7 @@ class RegisterViewModel
         }
     }
 
+    // 会員同意チェックバリデーション
     fun isConsentCheckValid(isConsentChecked: Boolean?): Boolean {
         var isValid = false
         if (isConsentChecked == false || isConsentChecked == null) {
@@ -132,7 +133,7 @@ class RegisterViewModel
         return isValid
     }
 
-    //登録ボタンが押された時に実行
+    //性別セレクトボックスバリデーション
     private fun isGenderValid(gender: String?): Boolean? {
         var isValid = false
         if (gender == null) {
@@ -144,6 +145,7 @@ class RegisterViewModel
         return isValid
     }
 
+    // ユーザーネームバリーデーション
     fun isUserNameValid(username: String?): Boolean {
         var isValid = false
         if (username.isNullOrBlank()) {
@@ -155,6 +157,7 @@ class RegisterViewModel
         return isValid
     }
 
+    //Emailバリデーション
     fun isEmailValid(email: String?): Boolean {
         var isValid = false
         if (email.isNullOrBlank()) {
@@ -173,6 +176,7 @@ class RegisterViewModel
         return isValid
     }
 
+    // 郵便番号バリデーション
     fun isZipCodeValid(address: String?): Boolean {
         var isValid = false
         if (address?.length != 7) {
@@ -183,6 +187,7 @@ class RegisterViewModel
         return isValid
     }
 
+    // 住所バリデーション
     fun isPrefectureCityValid(prefectureCity: String?): Boolean {
         var isValid = false
         if (prefectureCity.isNullOrBlank()) {
@@ -194,6 +199,7 @@ class RegisterViewModel
         return isValid
     }
 
+    //パスワードバリデーション
     fun isPasswordValid(pass: String?): Boolean {
         var isValid = false
         //デフォルトで半角入力しか受け付けない仕様なのでチェックなし
@@ -210,6 +216,7 @@ class RegisterViewModel
     }
 
 
+    //誕生日バリデーション
     fun isBirthDayValid(birthDay: String?): Boolean {
         var isValid = false
         if (birthDay.isNullOrBlank()) {
@@ -228,6 +235,7 @@ class RegisterViewModel
         return isValid
     }
 
+    //誕生年バリデーション
     @RequiresApi(Build.VERSION_CODES.O)
     fun isBirthYearValid(birthYear: String?): Boolean {
         var isValid = false
@@ -247,6 +255,7 @@ class RegisterViewModel
         return isValid
     }
 
+    //誕生月バリデーション
     @RequiresApi(Build.VERSION_CODES.O)
     fun isBirthMonthValid(birthMonth: String?): Boolean {
         var isValid = false
@@ -260,20 +269,18 @@ class RegisterViewModel
                 isValid = true
             }
         }
-
         return isValid
     }
 
+    //パスワードが一致しているか
     private fun matchPass(pass: String?, oneMorePass: String?): Boolean {
         var isValid = false
-
         if (pass != oneMorePass) {
             _registerForm.value =
                 RegisterFormState(matchPassError = R.string.invalid_not_match_pass)
         } else {
             isValid = true
         }
-
         return isValid
     }
 

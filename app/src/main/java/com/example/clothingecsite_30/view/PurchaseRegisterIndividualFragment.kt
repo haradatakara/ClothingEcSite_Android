@@ -19,11 +19,13 @@ import com.example.clothingecsite_30.viewModel.address.AddressViewModel
 import com.example.clothingecsite_30.viewModel.address.AddressViewModelFactory
 import com.example.clothingecsite_30.viewModel.authentication.LoginViewModel
 import com.example.clothingecsite_30.viewModel.authentication.LoginViewModelFactory
-import com.example.clothingecsite_30.viewModel.menu.PurchaseRegisterViewModel
-import com.example.clothingecsite_30.viewModel.menu.PurchaseRegisterViewModelFactory
+import com.example.clothingecsite_30.viewModel.purchaseComfirm.PurchaseRegisterViewModel
+import com.example.clothingecsite_30.viewModel.purchaseComfirm.PurchaseRegisterViewModelFactory
 import java.util.*
 
-
+/**
+ * 支払い情報入力ページ
+ */
 class PurchaseRegisterIndividualFragment : Fragment() {
 
     private lateinit var addressViewModel: AddressViewModel

@@ -1,7 +1,7 @@
 package com.example.clothingecsite_30.model.authentication.login
 
 /**
- * Data class that captures user information for logged in users retrieved from LoginRepository
+ * 　ログインユーザー情報を管理するモデルクラス
  */
 data class LoggedInUser(
     val uuid: String,

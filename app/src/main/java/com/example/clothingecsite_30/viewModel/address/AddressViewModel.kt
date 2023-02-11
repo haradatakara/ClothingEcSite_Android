@@ -8,7 +8,11 @@ import com.example.clothingecsite_30.model.Address
 import com.example.clothingecsite_30.repository.PurchaseRegisterIndividualRepository
 import kotlinx.coroutines.launch
 
-class AddressViewModel(private val purchaseRegisterIndividualRepository: PurchaseRegisterIndividualRepository): ViewModel() {
+/**
+ * 住所検索ViewModel
+ */
+class AddressViewModel(private val purchaseRegisterIndividualRepository: PurchaseRegisterIndividualRepository) :
+    ViewModel() {
 
     private val _address = MutableLiveData<Address>()
     val address: LiveData<Address> = _address

@@ -16,6 +16,9 @@ import com.example.clothingecsite_30.model.authentication.register.User
 import com.example.clothingecsite_30.repository.RegisterRepository
 import kotlinx.coroutines.*
 
+/**
+ * 会員情報更新に関する
+ */
 class UpdateViewModel(private val registerRepository: RegisterRepository) : ViewModel() {
 
     private val _loginUser = MutableLiveData<User>()

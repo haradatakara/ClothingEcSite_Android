@@ -21,11 +21,14 @@ import com.example.clothingecsite_30.databinding.FragmentLoginBinding
 import com.example.clothingecsite_30.viewModel.authentication.LoginViewModel
 import com.example.clothingecsite_30.viewModel.authentication.LoginViewModelFactory
 
+/**
+ * ログイン画面に関するフラグメント
+ */
 class LoginFragment : Fragment(), CustomTextWatcherListener {
 
     private lateinit var loginViewModel: LoginViewModel
-    private var _binding: FragmentLoginBinding? = null
 
+    private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -47,6 +50,7 @@ class LoginFragment : Fragment(), CustomTextWatcherListener {
 
         enterTextChangedListener(usernameEditText, passwordEditText)
 
+        // 入力時のバリデーションエラーメッセージ出力
         loginViewModel.loginFormState.observe(viewLifecycleOwner, Observer { loginFormState ->
             if (loginFormState == null) {
                 return@Observer
@@ -59,6 +63,7 @@ class LoginFragment : Fragment(), CustomTextWatcherListener {
             }
         })
 
+        // ログインボタン押下後の結果
         loginViewModel.loginResult.observe(viewLifecycleOwner, Observer { loginResult ->
             loginResult ?: return@Observer
             loadingProgressBar.visibility = View.GONE
@@ -71,7 +76,7 @@ class LoginFragment : Fragment(), CustomTextWatcherListener {
             }
         })
 
-        //Enterキーを押した時の処理
+        // Enterキーを押した時の処理
         passwordEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 loginViewModel.login(

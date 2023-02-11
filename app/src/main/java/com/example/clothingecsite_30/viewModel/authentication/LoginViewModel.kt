@@ -13,6 +13,9 @@ import com.example.clothingecsite_30.data.authentication.AuthenticationResult
 import com.example.clothingecsite_30.model.authentication.register.User
 import kotlinx.coroutines.*
 
+/**
+ * ログインに関するViewModel
+ */
 class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel() {
 
     private val _loginForm = MutableLiveData<LoginFormState>()

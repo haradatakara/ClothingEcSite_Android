@@ -17,6 +17,9 @@ interface CartAdapterListener {
     fun clicked(cart: Cart?)
 }
 
+/**
+ * カートリストアダプタ
+ */
 class CartListAdapter(
     context: Context?,
     var itemList: MutableList<Cart>?,

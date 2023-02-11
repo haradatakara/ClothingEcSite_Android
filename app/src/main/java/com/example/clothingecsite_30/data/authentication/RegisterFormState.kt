@@ -1,5 +1,8 @@
 package com.example.clothingecsite_30.data.authentication
 
+/**
+ * 会員登録時の入力エラーに関して扱うデータクラス
+ */
 data class RegisterFormState(
     val usernameError: Int? = null,
     val genderError: Int? = null,
