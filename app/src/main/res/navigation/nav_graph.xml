@@ -7,7 +7,6 @@
     <fragment
         android:id="@+id/MenuListFragment"
         android:name="com.example.clothingecsite_30.view.MenuListScrollingFragment"
-        android:label="@string/login_fragment_label"
         tools:layout="@layout/fragment_menu_list_scrolling">
         <action
             android:id="@+id/action_TopFragment_to_MenuListFragment"
@@ -35,7 +34,13 @@
             app:destination="@id/PurchaseRegisterIndividualFragment"
             app:enterAnim="@anim/slide_from_right"
             app:exitAnim="@anim/slide_to_left" />
+        <action
+            android:id="@+id/action_MenuListFragment_to_MenuDetailFragment"
+            app:destination="@id/MenuListFragment"
+            app:enterAnim="@anim/slide_from_right"
+            app:exitAnim="@anim/slide_to_left" />
     </fragment>
+
     <fragment
         android:id="@+id/PurchaseRegisterIndividualFragment"
         android:name="com.example.clothingecsite_30.view.PurchaseRegisterIndividualFragment"
@@ -52,6 +57,7 @@
             app:destination="@id/PurchaseRegisterIndividualFragment"
             app:enterAnim="@anim/slide_from_right"
             app:exitAnim="@anim/slide_to_left" />
+
     </fragment>
 
 </navigation>

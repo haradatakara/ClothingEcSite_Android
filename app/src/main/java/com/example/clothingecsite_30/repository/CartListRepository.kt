@@ -25,17 +25,30 @@ class CartListRepository {
         cartItem: MutableLiveData<Cart>,
     ): Boolean {
         withContext(Dispatchers.IO) {
-            val cartItemRef = fireDb.collection("cart").document(Firebase.auth.uid!!)
-            cartItemRef.update(
-                "item", FieldValue.arrayUnion(
+            val cartItemRef = fireDb.collection("cart").document(Firebase.auth.uid!!).get().await()
+            if(cartItemRef.data == null) {
+                fireDb.collection("cart").document(Firebase.auth.uid!!).set(
                     hashMapOf(
-                        "itemId" to cartItem.value?.itemId,
-                        "totalPrice" to cartItem.value?.totalPrice,
-                        "addCartAt" to DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")
-                            .format(LocalDateTime.now())
+                        "item" to listOf(hashMapOf(
+                            "itemId" to cartItem.value?.itemId,
+                            "totalPrice" to cartItem.value?.totalPrice,
+                            "addCartAt" to DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")
+                                .format(LocalDateTime.now())
+                        ))
                     )
                 )
-            ).await()
+            } else {
+                fireDb.collection("cart").document(Firebase.auth.uid!!).update(
+                    "item", FieldValue.arrayUnion(
+                        hashMapOf(
+                            "itemId" to cartItem.value?.itemId,
+                            "totalPrice" to cartItem.value?.totalPrice,
+                            "addCartAt" to DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")
+                                .format(LocalDateTime.now())
+                        )
+                    )
+                )
+            }
             insertDataBase = true
         }
         return insertDataBase
@@ -66,7 +79,8 @@ class CartListRepository {
         return withContext(Dispatchers.IO) {
             var arrayItems: ArrayList<MutableMap<String, *>> = ArrayList()
             val cart = fireDb.collection("cart").document(Firebase.auth.uid!!).get().await()
-            if (cart != null) {
+
+            if (cart.data != null) {
                 arrayItems = cart.get("item") as ArrayList<MutableMap<String, *>>
             }
 

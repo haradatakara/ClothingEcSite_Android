@@ -27,7 +27,6 @@ class MenuDetailFragment : Fragment() {
 
     private lateinit var itemViewModel: ItemViewModel
     private lateinit var cartListViewModel: CartListViewModel
-    private lateinit var cartItemAdapter: CartListAdapter
 
     private var _binding: FragmentMenuDetailBinding? = null
     private val binding get() = _binding!!
@@ -37,8 +36,6 @@ class MenuDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMenuDetailBinding.inflate(inflater, container, false)
-
-        Firebase.auth.uid
         return binding.root
     }
 
@@ -58,6 +55,7 @@ class MenuDetailFragment : Fragment() {
         val itemPrice = binding.priceNum
         val addCartBtn = binding.gotoCartBtn
         val purchaseBtn = binding.gotoPurchase
+        val returnBtn = binding.returnButton
         val itemDetail = itemViewModel.item.value
 
         itemName.text = itemDetail?.name
@@ -69,6 +67,11 @@ class MenuDetailFragment : Fragment() {
             findNavController().navigate(R.id.action_PurchaseRegisterIndividualFragment_to_MenuListFragment)
         }
 
+        returnBtn.setOnClickListener {
+            itemViewModel._item.value = null
+            findNavController().navigate(R.id.action_MenuListFragment_to_MenuDetailFragment)
+        }
+
         addCartBtn.setOnClickListener {
             cartListViewModel.cartItem.value = Cart(
                 itemDetail!!.itemId.toLong(),
@@ -78,6 +81,7 @@ class MenuDetailFragment : Fragment() {
                 DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")
                     .format(LocalDateTime.now()),
             )
+
             cartListViewModel.onClickAddCartBtn()
 
             val dialog = CartListDialogFragment()
