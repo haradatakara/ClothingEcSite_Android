@@ -77,4 +77,6 @@
     <string name="next_cash_btn">支払い情報入力へ</string>
     <string name="nav_my_profile">My Profile</string>
     <string name="nav_sign_out">Sign Out</string>
+    <string name="nav_map">Shop Map</string>
+    <string name="title_activity_shop_info">店舗情報</string>
 </resources>

@@ -39,6 +39,11 @@
             app:destination="@id/MenuListFragment"
             app:enterAnim="@anim/slide_from_right"
             app:exitAnim="@anim/slide_to_left" />
+        <action
+            android:id="@+id/action_GoogleMaps_to_MenuListFragment"
+            app:destination="@id/GoogleMaps"
+            app:enterAnim="@anim/slide_from_right"
+            app:exitAnim="@anim/slide_to_left" />
     </fragment>
 
     <fragment
@@ -58,6 +63,17 @@
             app:enterAnim="@anim/slide_from_right"
             app:exitAnim="@anim/slide_to_left" />
 
+    </fragment>
+    <fragment
+        android:id="@+id/GoogleMaps"
+        android:name="com.example.clothingecsite_30.view.ShopMapsFragment"
+        android:label="@string/login_fragment_label"
+        tools:layout="@layout/fragment_shop_maps">
+        <action
+            android:id="@+id/action_MenuListFragment_to_GoogleMaps"
+            app:destination="@id/MenuListFragment"
+            app:enterAnim="@anim/slide_from_right"
+            app:exitAnim="@anim/slide_to_left" />
     </fragment>
 
 </navigation>

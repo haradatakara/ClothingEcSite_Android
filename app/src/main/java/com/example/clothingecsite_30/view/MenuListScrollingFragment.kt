@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.clothingecsite_30.R
 import com.example.clothingecsite_30.databinding.FragmentMenuListScrollingBinding
+import com.example.clothingecsite_30.enum.ItemGenre
 import com.example.clothingecsite_30.model.Item
 import com.example.clothingecsite_30.util.ItemMenuListAdapter
 import com.example.clothingecsite_30.viewModel.authentication.LoginViewModel
@@ -28,6 +29,7 @@ class MenuListScrollingFragment : Fragment() {
     private lateinit var loginViewModel: LoginViewModel
     private lateinit var itemMenuListViewModel: ItemMenuListViewModel
     private lateinit var itemViewModel: ItemViewModel
+    private lateinit var recyclerView: RecyclerView
 
     private var _binding: FragmentMenuListScrollingBinding? = null
     private val binding get() = _binding!!
@@ -66,25 +68,48 @@ class MenuListScrollingFragment : Fragment() {
             }
         }
 
-        val recyclerView: RecyclerView = binding.lvMenu
-        recyclerView.setHasFixedSize(true);
+        recyclerView = binding.lvMenu
+        recyclerView.setHasFixedSize(true)
 
         //LayoutManagerの設定
         val layoutManager = LinearLayoutManager(context)
         recyclerView.layoutManager = layoutManager
 
+        var allItems: List<Item>? = null
+
         /**
          * メニューリスト表示
          */
         itemMenuListViewModel.itemList.observe(viewLifecycleOwner) { items ->
+            allItems = items
+            createAdapter(allItems)
             progressBar.visibility = View.GONE
-            val adapter = ItemMenuListAdapter(context, items)
-            recyclerView.adapter = adapter
-            adapter.setOnItemClickListener(object : ItemMenuListAdapter.OnItemClickListener {
-                override fun onItemClickListener(view: View, position: Int, clickedText: Item) {
-                    itemViewModel.fetchItem(clickedText.documentId)
-                }
-            })
+        }
+
+        binding.btTops.setOnClickListener {
+            progressBar.visibility = View.VISIBLE
+            Thread.sleep(1000)
+            val tops = allItems?.filter {
+                it.genre.lowercase() == ItemGenre.TOPS.value
+            }
+            createAdapter(tops)
+            progressBar.visibility = View.GONE
+        }
+
+        binding.btPants.setOnClickListener {
+            progressBar.visibility = View.VISIBLE
+            Thread.sleep(1000)
+            val pants = allItems?.filter {
+                it.genre.lowercase() == ItemGenre.PANTS.value
+            }
+            createAdapter(pants)
+            progressBar.visibility = View.GONE
+        }
+
+        binding.btAll.setOnClickListener {
+            progressBar.visibility = View.VISIBLE
+            createAdapter(allItems)
+            progressBar.visibility = View.GONE
         }
 
         /**
@@ -97,6 +122,16 @@ class MenuListScrollingFragment : Fragment() {
                 findNavController().navigate(R.id.action_MenuDetailFragment_to_MenuListFragment)
             }
         }
+    }
+
+    private fun createAdapter(pants: List<Item>?) {
+        val adapter = ItemMenuListAdapter(context, pants!!)
+        recyclerView.adapter = adapter
+        adapter.setOnItemClickListener(object : ItemMenuListAdapter.OnItemClickListener {
+            override fun onItemClickListener(view: View, position: Int, clickedText: Item) {
+                itemViewModel.fetchItem(clickedText.documentId)
+            }
+        })
     }
 
 }
