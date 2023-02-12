@@ -45,13 +45,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         //ユーザー情報取得後、プロフィール写真がある場合、Glideによって表示する
         loginViewModel.loginUser.observe(this) {
-            if(it != null) {
+            if(it.image != "") {
                 Glide.with(this)
                     .load(it.image)
                     .into(findViewById<CircleImageView>(R.id.iv_user_image))
                 findViewById<TextView>(R.id.tv_username).text = it.name
             }
         }
+
+
 
         setupActionBar()
 
@@ -101,14 +103,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
      */
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
         when (menuItem.itemId) {
-//            R.id.nav_my_profile -> {
-//                val intent = Intent(this, MyProfileActivity::class.java)
-//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-//                startActivity(intent)
-//            }
+            R.id.nav_my_profile -> {
+                val intent = Intent(this, MyProfileActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+            }
             R.id.nav_sign_out -> {
                 loginViewModel.logout()
                 val intent = Intent(this, IntroActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+                finish()
+            }
+            R.id.shop_map -> {
+                val intent = Intent(this, ShopMapsActivity::class.java)
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
                 finish()
