@@ -113,6 +113,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 startActivity(intent)
                 finish()
             }
+            R.id.shop_map -> {
+                val intent = Intent(this, ShopMapsActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+                finish()
+            }
         }
         binding.drawerLayout.closeDrawer(GravityCompat.START)
         return true
