@@ -7,6 +7,7 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="login_fragment_label">Login Fragment</string>
     <string name="purchase_confirm">購入登録</string>
+    <string name="update_info_label">個人情報更新</string>
     <string name="register_fragment_label">Register Fragment</string>
     <string name="previous">Previous</string>
     <string name="name">Name</string>
@@ -14,6 +15,7 @@
     <string name="email">Email</string>
     <string name="mobile">Mobile</string>
     <string name="update">UPDATE</string>
+    <string name="cancel">やっぱやめる</string>
     <string name="my_profile">My Profile</string>
     <!--  共通  -->
     <!--ボタンタイトル -->
