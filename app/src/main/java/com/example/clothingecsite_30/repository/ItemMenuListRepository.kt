@@ -4,6 +4,7 @@ import com.example.clothingecsite_30.model.Item
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
@@ -15,8 +16,18 @@ class ItemMenuListRepository {
 
     // item一覧取得
     suspend fun fetchItemList(): List<Item> {
+        var itemList: List<Item> = listOf()
         return withContext(Dispatchers.IO) {
-            return@withContext fireDb.collection("items").get().await().toObjects(Item::class.java)
+            try {
+                fireDb
+                    .collection("items")
+                    .get()
+                    .addOnCompleteListener {
+                        itemList = it.result.toObjects(Item::class.java)
+                    }
+            } catch (_: Exception) {}
+            delay(1000)
+            return@withContext itemList
         }
     }
 

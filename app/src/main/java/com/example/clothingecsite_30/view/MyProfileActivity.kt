@@ -13,13 +13,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.net.toUri
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.clothingecsite_30.R
-import com.example.clothingecsite_30.data.authentication.AuthenticationResult
-import com.example.clothingecsite_30.data.authentication.LoggedInUserView
 import com.example.clothingecsite_30.databinding.ActivityMyProfileBinding
 import com.example.clothingecsite_30.viewModel.authentication.LoginViewModel
 import com.example.clothingecsite_30.viewModel.authentication.LoginViewModelFactory
@@ -64,16 +61,22 @@ class MyProfileActivity : AppCompatActivity(), UserConfirmDialogFragment.DialogL
             loginViewModel.fetchLoginUser()
         }
 
+        binding.loading.visibility = View.VISIBLE
+
         //ユーザー情報取得後、プロフィール写真がある場合、Glideによって表示する
         loginViewModel.loginUser.observe(this) {
-            (binding.etName as TextView).text = it.name
-            (binding.etEmail as TextView).text = it.email
-            if (it.image.isNotBlank()) {
-                Glide
-                    .with(this)
-                    .load(it?.image)
-                    .into(findViewById<CircleImageView>(R.id.iv_profile_user_image))
-//                updateViewModel.profileImageUri.value = it.image.toUri()
+            binding.loading.visibility = View.GONE
+            if(it != null) {
+                (binding.etName as TextView).text = it.name
+                (binding.etEmail as TextView).text = it.email
+                if (it.image != "") {
+                    Glide
+                        .with(this)
+                        .load(it.image)
+                        .into(findViewById<CircleImageView>(R.id.iv_profile_user_image))
+                }
+            } else {
+
             }
         }
 

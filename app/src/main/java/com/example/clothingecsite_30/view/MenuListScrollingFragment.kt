@@ -57,7 +57,6 @@ class MenuListScrollingFragment : Fragment() {
 
         // アイテム取得
         progressBar.visibility = View.VISIBLE
-        itemMenuListViewModel.fetchItemList()
 
         //ログアウトボタン押下時
         loginViewModel.isLogout.observe(viewLifecycleOwner) {
@@ -81,9 +80,15 @@ class MenuListScrollingFragment : Fragment() {
          * メニューリスト表示
          */
         itemMenuListViewModel.itemList.observe(viewLifecycleOwner) { items ->
-            allItems = items
-            createAdapter(allItems)
-            progressBar.visibility = View.GONE
+            //取得できなかったら
+            if(items.isEmpty()) {
+                binding.oneMoreBtn.visibility = View.VISIBLE
+                progressBar.visibility = View.GONE
+            } else {
+                allItems = items
+                createAdapter(allItems)
+                progressBar.visibility = View.GONE
+            }
         }
 
         binding.btTops.setOnClickListener {
@@ -112,6 +117,12 @@ class MenuListScrollingFragment : Fragment() {
             progressBar.visibility = View.GONE
         }
 
+        binding.oneMoreBtn.setOnClickListener {
+            binding.oneMoreBtn.visibility = View.GONE
+            progressBar.visibility = View.VISIBLE
+            itemMenuListViewModel.fetchItemList()
+        }
+
         /**
          * 商品詳細ページの移動できるか
          */
@@ -122,6 +133,11 @@ class MenuListScrollingFragment : Fragment() {
                 findNavController().navigate(R.id.action_MenuDetailFragment_to_MenuListFragment)
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        itemMenuListViewModel.fetchItemList()
     }
 
     private fun createAdapter(pants: List<Item>?) {

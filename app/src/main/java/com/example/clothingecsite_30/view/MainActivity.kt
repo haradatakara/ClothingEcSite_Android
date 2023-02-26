@@ -45,15 +45,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         //ユーザー情報取得後、プロフィール写真がある場合、Glideによって表示する
         loginViewModel.loginUser.observe(this) {
-            if(it.image != "") {
-                Glide.with(this)
-                    .load(it.image)
-                    .into(findViewById<CircleImageView>(R.id.iv_user_image))
+            if (it != null) {
                 findViewById<TextView>(R.id.tv_username).text = it.name
+                if(it.image != "") {
+                    Glide.with(this)
+                        .load(it.image)
+                        .into(findViewById<CircleImageView>(R.id.iv_user_image))
+                }
             }
         }
-
-
 
         setupActionBar()
 
