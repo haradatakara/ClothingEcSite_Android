@@ -60,7 +60,6 @@ class UpdateViewModel(private val updateRepository: UpdateRepository) : ViewMode
             )
 
             viewModelScope.launch {
-                val result = updateRepository.update(updateInfo, confirmPassword.value.toString(), confirmEmail.value.toString())
                 when (val result = updateRepository.update(updateInfo, confirmPassword.value.toString(), confirmEmail.value.toString())) {
                     is com.example.clothingecsite_30.model.authentication.Result.Success -> {
                         _updateResult.value =

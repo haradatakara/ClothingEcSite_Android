@@ -42,17 +42,19 @@ class LoginRepository() {
     // ログインユーザー情報取得
     suspend fun fetchLoginUser(): User? {
         val uid = fireAuth.uid
+        var user: User? = null;
+        try {
+            fireStore
+                .collection("user")
+                .document(uid!!).get().addOnSuccessListener {
+                    user = it.toObject(User::class.java)
+                }.await()
+            if (!user?.image.isNullOrBlank()) {
+                val url = storageRef.child(user!!.image).downloadUrl.await()
+                user!!.image = url.toString()
+            }
+        } catch (_: java.lang.Exception) {}
 
-        val user = fireStore
-            .collection("user")
-            .document(uid!!)
-            .get()
-            .await()
-            .toObject(User::class.java)
-        if(!user?.image.isNullOrBlank()) {
-            val url = storageRef.child(user!!.image).downloadUrl.await()
-            user.image = url!!.toString()
-        }
         return user
     }
 
@@ -64,7 +66,8 @@ class LoginRepository() {
             if (user != null) {
                 val uid: String = user.uid
                 setLoggedInUser(LoggedInUser(uid, loginUser.email, loginUser.password))
-                authenticatedUser = Result.Success(LoggedInUser(uid, loginUser.email, loginUser.password))
+                authenticatedUser =
+                    Result.Success(LoggedInUser(uid, loginUser.email, loginUser.password))
             }
         } catch (e: java.lang.Exception) {
             authenticatedUser = Result.Error(e)
