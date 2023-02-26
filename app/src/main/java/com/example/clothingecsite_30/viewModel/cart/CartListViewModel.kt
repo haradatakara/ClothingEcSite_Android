@@ -39,8 +39,8 @@ class CartListViewModel(private val cartListRepository: CartListRepository) :
     //カートアイテム削除
     fun onClickDeleteBtn(cart: Cart?) {
         viewModelScope.launch {
-            canCartListOpen.value = cartListRepository.onClickDeleteItem(cart)
             cartListItem.value?.remove(cart)
+            canCartListOpen.value = cartListRepository.onClickDeleteItem(cart)
         }
     }
 }

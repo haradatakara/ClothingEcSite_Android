@@ -81,4 +81,5 @@
     <string name="nav_sign_out">Sign Out</string>
     <string name="nav_map">Shop Map</string>
     <string name="title_activity_shop_info">店舗情報</string>
+    <string name="no_cart_item">カートに入っている商品はないよ！</string>
 </resources>
