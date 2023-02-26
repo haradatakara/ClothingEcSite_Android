@@ -64,6 +64,10 @@ class CartListDialogFragment : BottomSheetDialogFragment(), CartAdapterListener 
         cartListViewModel.canCartListOpen.observe(viewLifecycleOwner) {
             loadingProgressBar.visibility = View.GONE
             if (it == true) {
+                if(cartListViewModel.cartListItem.value?.size == 0) {
+                    binding.purchaseBtn.visibility = View.GONE
+                    binding.noCartItem.visibility = View.VISIBLE
+                }
                 displayCartItem(cartListViewModel.cartListItem.value)
                 Toast.makeText(
                     context, "カートから削除されました", Toast.LENGTH_SHORT
@@ -71,7 +75,6 @@ class CartListDialogFragment : BottomSheetDialogFragment(), CartAdapterListener 
                 cartListViewModel.canCartListOpen.value = false
             }
         }
-
         // 購入ボタン押下
         binding.purchaseBtn.setOnClickListener {
             startActivity(Intent(this.requireContext(), PurchaseConfirmActivity::class.java))
@@ -83,8 +86,16 @@ class CartListDialogFragment : BottomSheetDialogFragment(), CartAdapterListener 
         binding.loading.visibility = View.VISIBLE
         cartListViewModel.onClickCartBtn()
         cartListViewModel.cartListItem.observe(viewLifecycleOwner) {
-            binding.loading.visibility = View.GONE
-            displayCartItem(it)
+            if(it.size == 0) {
+                binding.purchaseBtn.visibility = View.GONE
+                binding.noCartItem.visibility = View.VISIBLE
+                binding.loading.visibility = View.GONE
+            } else {
+                binding.loading.visibility = View.GONE
+                binding.noCartItem.visibility = View.GONE
+                binding.purchaseBtn.visibility = View.VISIBLE
+                displayCartItem(it)
+            }
         }
     }
 
